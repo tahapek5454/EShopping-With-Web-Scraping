@@ -29,8 +29,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# Olusturulan app leri buraya ekliyoruz, tanıtıyoruz
 INSTALLED_APPS = [
+    'shopping',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
