@@ -1,9 +1,15 @@
+{% load static %}
+<!-- bu bize static dosyaları ulastırıyor -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'shopping/css/style.css' %}"> 
+    <!-- kabaca bu sekilde static keywordu ve dosya adı ile ilgili static dosyasını çekiyoruz -->
+    {% block cssArea %} {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
