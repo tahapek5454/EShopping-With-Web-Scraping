@@ -53,10 +53,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'shoppingApp.urls'
 
 # bu kısım bizim app lerin altında olusturudugumuz templates klosorlerini tarıyor
+# ekstra DIRS a ben anadizindeki genel templates dosyasına da bak dedim
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR /"templates"
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
