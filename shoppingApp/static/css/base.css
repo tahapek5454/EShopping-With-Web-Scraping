@@ -1,0 +1,41 @@
+#main-navbar .navbar-brand {
+    font-weight: 700;
+}
+
+#main-navbar .navbar-nav .nav-item .nav-link.active,
+#main-navbar .navbar-nav .nav-item .nav-link:hover {
+    color: rgb(230, 149, 0);
+}
+
+#navbar-form #navbar-form-button:hover {
+    background-color: rgb(230, 149, 0);
+    color: white;
+}
+
+.form-check-input:checked {
+    background-color: rgb(230, 149, 0);
+    border-color: rgb(230, 149, 0);
+
+    box-shadow: rgb(230, 149, 0) 0px 7px 29px 0px;
+}
+
+.form-check-input:focus {
+    box-shadow: rgb(230, 149, 0) 0px 7px 29px 0px;
+    border-color: rgb(230, 149, 0);
+}
+
+.myPaddingForSpecialRow {
+    padding-right: 70px;
+    padding-left: 70px;
+}
+
+.pcImage {
+
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+}
+
+.starColor {
+    color: yellow;
+}

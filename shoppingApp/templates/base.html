@@ -8,12 +8,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'shopping/css/style.css' %}"> 
     <!-- kabaca bu sekilde static keywordu ve dosya adı ile ilgili static dosyasını çekiyoruz -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <!-- html icin icon saglayan sayfa -->
+
     {% block cssArea %} {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+
+    {% include 'framePart/_navbar.html' %}
+    <!-- template altını gezer ve path de belirtilen dosya icerigini ekler -->
 
     <!-- artık spesifik olusturucaz her uygulama kendisine burayı base alacak
         block content ile tanımlı yerlere kendi ozelliklerini iletecek -->
@@ -21,6 +29,10 @@
 
     {% endblock %}
 
+
+
+    {% include 'framePart/_footer.html' %}
+    <!-- template altını gezer ve path de belirtilen dosya icerigini ekler -->
 
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
