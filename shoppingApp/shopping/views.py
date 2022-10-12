@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from .models import DenemeProduct
+# tablodaki verileri cekip canlıya atmak icin
 
 # Create your views here.
 # burada beliritilen linklerde neler gozukecegini soyleriz
@@ -7,9 +9,14 @@ from django.shortcuts import render
 
 def home(request):
 
+    dynamicVar = {
+        'products': DenemeProduct.objects.all() 
+    }
+    # tum urunleri al dedik
+
     #render bize gelen requeste gore templatelerden dosya arıyor
     #spesifik bir yerden aramasını istedigimizden template altında dosya olusturduk
-    return render(request, "shopping/index.html") 
+    return render(request, "shopping/index.html", dynamicVar) 
 
 def productDetails(request, id):
 

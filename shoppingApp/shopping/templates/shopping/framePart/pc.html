@@ -17,8 +17,8 @@
             <h5>
                 <a href="{% url 'productDetails' 1 %}" class="link-dark">
                     <!-- gidecegi yolu verdik ayriyetten parametre alıyor onu 3. olarak ekliyoruz -->
-                Lenovo V14 G2 ITL Intel Core i5 1135G7 8GB 256GB SSD MX350 Freedos 14" FHD
-                Taşınabilir Bilgisayar 82KA00ECTX
+                    <!-- Dinamik veriyi yazmak icin de ic ice koseli parantezs icersinde yazıyoruz -->
+                    {{ product.title }}
                 </a>
             </h5>
 
@@ -30,7 +30,7 @@
 
             <!-- para falan yazılan yer -->
             <div class="col-sm ">
-                <p class="fw-bold text-center">10.399,00 TL</p>
+                <p class="fw-bold text-center">{{ product.price }}</p>
 
                 <div class="row">
                     <div class="col-sm-8 ">
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <p class="fw-bold">4</p>
+                        <p class="fw-bold">{{ product.rating }}</p>
                     </div>
 
 
@@ -54,7 +54,7 @@
 
             <!-- para falan yazılan yer -->
             <div class="col-sm ">
-                <p class="fw-bold text-center">10.399,00 TL</p>
+                <p class="fw-bold text-center">{{ product.price }}</p>
 
                 <div class="row">
                     <div class="col-sm-8 ">
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="col-sm-4 ">
-                        <p class="fw-bold ">4</p>
+                        <p class="fw-bold ">{{ product.rating }}</p>
 
                     </div>
 
@@ -78,7 +78,7 @@
 
             <!-- para falan yazılan yer -->
             <div class="col-sm ">
-                <p class="fw-bold text-center">10.399,00 TL</p>
+                <p class="fw-bold text-center">{{ product.price }}</p>
 
                 <div class="row">
                     <div class="col-sm-8 ">
@@ -91,7 +91,7 @@
                     </div>
 
                     <div class="col-sm-4 ">
-                        <p class="fw-bold ">4</p>
+                        <p class="fw-bold ">{{ product.rating }}</p>
                     </div>
 
                 </div>

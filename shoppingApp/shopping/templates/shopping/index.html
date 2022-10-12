@@ -166,35 +166,19 @@
 
                 <!-- laptop start -->
 
-                {% include 'shopping/framePart/pc.html' %}
+                
                 <!-- include partial ile uygulama yonetşmşnş kolaylaştırıyoruz
                     pc leri ditek frame part altından çekiyoruz -->
 
-                <hr>
+               
 
-                {% include 'shopping/framePart/pc.html' %}
+                {% for product in products %}
+                    {% include 'shopping/framePart/pc.html' %}
 
-                <hr>
+                    <hr>
+                {% endfor %}
 
-                {% include 'shopping/framePart/pc.html' %}
-
-                <hr>
-
-                {% include 'shopping/framePart/pc.html' %}
-
-                <hr>
-
-                {% include 'shopping/framePart/pc.html' %}
-
-                <hr>
-
-                {% include 'shopping/framePart/pc.html' %}
-
-                <hr>
-
-                {% include 'shopping/framePart/pc.html' %}
-
-                <hr>
+                <!-- her product direkt shopping framePart pc.html icersinde yollanır bilgiler -->
 
                 <!-- laptop ends -->
 
