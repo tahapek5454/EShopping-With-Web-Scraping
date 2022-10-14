@@ -160,7 +160,7 @@ class WebScrapping:
                         .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'}, limit=1)
             
             for item in products:
-                print(item)
+                #print(item)
                 link = item.a.get('href')
                 productLinks.append('https://www.hepsiburada.com'+link)
                 
@@ -194,55 +194,77 @@ class WebScrapping:
             name = soup2.find('h2', {'class':'product-features-text'}).text.strip().split(' ')[0]
                     #bu sekilde texte ilk basta marka ismi oluyor onu cektik
             
+            print(name)
+            print("")
+            
             features = soup2.find('table', {'class':'data-list tech-spec'}).find_all('tr')
 
             for feaure in features:
                 
                 if feaure.th.text == 'İşletim Sistemi':
-                    try:
-                        isletimSistemi = feaure.span.text.strip()
-                    except:
-                        isletimSistemi=feaure.get('a').text.strip()
+                    
+                    if feaure.td.span == None:
+                        isletimSistemi = feaure.td.a.text.strip()
+                    else:
+                        isletimSistemi = feaure.td.span.text.strip()
 
                 elif feaure.th.text == 'İşlemci Tipi':
-                    try:
-                        islemciTipi = feaure.span.text.strip()
-                    except:
-                        islemciTipi=feaure.get('a').text.strip()
+                    
+                    if feaure.td.span == None:
+                        islemciTipi = feaure.td.a.text.strip()
+                    else:
+                        islemciTipi = feaure.td.span.text.strip()
                 
                 elif feaure.th.text == 'İşlemci Nesli':
-                    try:
-                        islemciNesli = feaure.span.text.strip()
-                    except:
-                        islemciNesli=feaure.get('a').text.strip()
+                   
+                    if feaure.td.span == None:
+                        islemciNesli = feaure.td.a.text.strip()
+                    else:
+                        islemciNesli = feaure.td.span.text.strip()
                 
                 elif feaure.th.text == 'Ram (Sistem Belleği)':
-                    try:
-                        ram = feaure.span.text.strip()
-                    except:
-                        ram=feaure.get('a').text.strip()
+                    if feaure.td.span == None:
+                        ram = feaure.td.a.text.strip()
+                    else:
+                        ram = feaure.td.span.text.strip()
                 
                 elif feaure.th.text == 'SSD Kapasitesi':
-                    if feaure.get('a').text.strip() != 'Yok':
-                        try:
-                            diskBoyutu = feaure.span.text.strip()
-                        except:
-                            diskboyutu=feaure.get('a').text.strip()
-                        diskTuru='SSD'
+                    # if feaure.get('a').text.strip() != 'Yok':
+                    #     try:
+                    #         diskBoyutu = feaure.span.text.strip()
+                    #     except:
+                    #         diskboyutu=feaure.get('a').text.strip()
+                    #     diskTuru='SSD'
+                    
+                    if feaure.td.span == None:
+                        if feaure.td.a.text.strip() != "Yok":
+                            diskBoyutu = feaure.td.a.text.strip()
+                            diskTuru='SSD'
+                    else:
+                        if feaure.td.span.text.strip() != "Yok":
+                            diskBoyutu = feaure.td.span.text.strip()
+                            diskTuru='SSD'
+
+
                 
                 elif feaure.th.text == 'Harddisk Kapasitesi':
-                    if feaure.get('a').text.strip() != 'Yok':
-                        try:
-                            diskBoyutu = feaure.span.text.strip()
-                        except:
-                            diskboyutu=feaure.get('a').text.strip()
-                        diskTuru='HDD'
+                    if feaure.td.span == None:
+                        if feaure.td.a.text.strip() != "Yok":
+                            diskBoyutu = feaure.td.a.text.strip()
+                            diskTuru='HDD'
+                    else:
+                        if feaure.td.span.text.strip() != "Yok":
+                            diskBoyutu = feaure.td.span.text.strip()
+                            diskTuru='HDD'
        
                 elif feaure.th.text == 'Ekran Boyutu':
-                    try:
-                        ekranBoyutu = feaure.span.text.strip()
-                    except:
-                        ekranBoyutu=feaure.get('a').text.strip()
+                    if feaure.td.span == None:
+                        ekranBoyutu = feaure.td.a.text.strip()
+                        
+                    else:
+                        ekranBoyutu = feaure.td.span.text.strip()
+                    
+
                         
                     
             
