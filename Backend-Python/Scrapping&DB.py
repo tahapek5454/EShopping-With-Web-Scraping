@@ -1,6 +1,58 @@
+from asyncio.windows_events import NULL
 from turtle import clear
 import requests
 from bs4 import BeautifulSoup
+from pymongo import MongoClient
+
+class Database:
+    
+    client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
+    db=client["WebScraping"]
+    mycol=db["Products"]
+    
+    
+    def __init__(self) -> None:
+        pass
+    
+    def add_dict_product(self,prod_dict):
+        self.mycol.insert_many(prod_dict)
+        
+    def add_one_product(self,dict):
+        self.mycol.insert_one(dict)
+        
+    def control_add_product(self,prod_dict):
+        
+        prod= self.mycol.find()
+        if(prod==None):
+            
+            self.add_dict_product(prod_dict)
+            
+        else:
+            for p in prod_dict:
+                
+                if(p['modelNo']=='Yok' or p['modelNo']=='Belirtilmemiş'):
+                    
+                    for a in prod:
+                        
+                        if(a['prodTitle']==p['prodTitle']):
+                            
+                            self.delete_product(a)
+                            break
+                else:
+                    
+                    for a in prod:
+                        
+                        if(a['modelNo']==p['modelNo']):
+                            print("İçine Girdim")
+                            self.delete_product(a)
+                            break
+                        
+                self.add_one_product(p)
+                  
+    def delete_product(self,dict):
+        
+        self.mycol.delete_one(dict)
+            
 
 class WebScrapping:
 
@@ -144,9 +196,6 @@ class WebScrapping:
                 'prodTitle':prodTitle
             }
             self.pcN11List.append(productDict)
-        for item in self.pcN11List:
-            print(item)
-            print('*'*100)
 
     def hepsiBurada(self):
         productLinks = []
@@ -326,10 +375,7 @@ class WebScrapping:
                         'prodTitle':pro_title,
                         'site':pro_site
                     }
-            self.pcTrendyolList.append(productDict)
-        for item in self.pcTrendyolList:
-            print(item)
-            print('*'*100)             
+            self.pcTrendyolList.append(productDict)       
             
     def teknosa(self):
         for page in range(1,2):
@@ -443,14 +489,11 @@ class WebScrapping:
                             'fiyat':pro_price,
                             'prodLink':pr_link,
                             'imageLink':pro_image_url,
-                            'prodtitle':pro_title,
+                            'prodTitle':pro_title,
                             'site':pro_site
             }
             
             self.pcTeknosaList.append(productDict)
-        for item in self.pcTeknosaList:
-            print(item)
-            print('*'*100)
 
     def ciceksepeti(self):
         product_links = []
@@ -466,7 +509,7 @@ class WebScrapping:
             html=response.content
             soup=BeautifulSoup(html,'html.parser')
             isletimsistemi='Freedos'
-            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=3)
+            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=10)
 
 
             for item in product_list:
@@ -574,9 +617,6 @@ class WebScrapping:
                         'site':site
                     }
             self.pcCicekSepetiList.append(productDict)
-        for item in self.pcCicekSepetiList:
-            print(item)
-            print('*'*100)  
 
     def n11NesilShaper(self,item):
 
@@ -699,13 +739,19 @@ class WebScrapping:
         
         return 'Yok'
         
-deneme = WebScrapping()
-print('*************N11**************')
-deneme.n11()
-print('*************TEKNOSA**************')
-deneme.teknosa()
-print('*************TRENDYOL**************')
-deneme.trendyol()
-print('*************ÇİÇEKSEPETİ**************')
-deneme.ciceksepeti()
+scraping = WebScrapping()
+# scraping.n11()
+scraping.teknosa()
+# scraping.trendyol()
+# scraping.ciceksepeti()
+
+database = Database()
+
+# database.add_product(scraping.pcCicekSepetiList)
+# database.add_product(scraping.pcN11List)
+# database.add_product(scraping.pcTrendyolList)
+database.control_add_product(scraping.pcTeknosaList)
+
+
+
 
