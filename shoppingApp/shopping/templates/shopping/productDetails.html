@@ -8,5 +8,13 @@
 
 <!-- bu sekilde base de ilgili yere spesifik html ekledik -->
 {% block main %}
-    <h1>Product Details id : {{ id }}</h1>
+
+    <!-- <h1>Product Details id : {{ id }}</h1> -->
+
+    {% for product in products %}
+
+        {% include 'shopping/framePart/details.html' %}  
+
+    {% endfor %}
+    
 {% endblock %}

@@ -23,7 +23,13 @@ def productDetails(request, id):
     # mesela biz id yi de request gondermek istiyoruz
     # onu bir dict yapısında 3. parametre olarak gonderebilirz
     # ilgili yerde kullanımı {{ }} icersinde olur
+
+    # simdilik id ye gore cekicem ama isin icine birden fazla gelince model no olucak
+    products = DenemeProduct.objects.filter(id = id)
+
+    # su an tek bir veri gelse de bu veri [veri] seklinde bir dizi elemanı olarak geliyor
+
     dynamicVar = {
-        'id':id
+        'products': products
     }
     return render(request, "shopping/productDetails.html", dynamicVar)
