@@ -1,9 +1,6 @@
-from pyexpat import model
+from turtle import clear
 import requests
 from bs4 import BeautifulSoup
-import getpass
-
-
 
 class WebScrapping:
 
@@ -43,7 +40,7 @@ class WebScrapping:
 
             
 
-            liste = soup.find('ul', {'class':'list-ul'}).find_all('li', {'class':'column'}, limit=10) #tüm listeyi al
+            liste = soup.find('ul', {'class':'list-ul'}).find_all('li', {'class':'column'}, limit=3) #tüm listeyi al
             # n11 page 1 de 24 urun var
             
 
@@ -103,6 +100,9 @@ class WebScrapping:
                   
             puani = raiting     
             fiyat = productPrice[index]
+            
+            fiyat=self.shapeFiyat(fiyat)
+            
             imageLink=productImageLinks[index]
             prodTitle=productTitle[index]
             index = index + 1
@@ -122,7 +122,9 @@ class WebScrapping:
                     model_name+=model_no_list[x]
                     model_name+=" "
             site = 'n11'
-
+            islemciNesli=self.n11NesilShaper(islemciNesli)
+            ekranBoyutu=self.shapeEkranBoyutu(ekranBoyutu)
+            isletimSistemi=self.shapeIsletimSistemi(isletimSistemi)
             productDict = {
                 'marka':marka,
                 'modelAdi':model_name,
@@ -142,11 +144,17 @@ class WebScrapping:
                 'prodTitle':prodTitle
             }
             self.pcN11List.append(productDict)
+        for item in self.pcN11List:
+            print(item)
+            print('*'*100)
 
-# sıkıntılı
     def hepsiBurada(self):
         productLinks = []
         productTitles=[]
+        productPrices=[]
+        productMarkas=[]
+        productImageLinks=[]
+        productStarts=[]
         index=0
         # sayfaki genel tum urunlerin linkini alma kısmı
         for urlIndex in range(1,2):
@@ -157,7 +165,7 @@ class WebScrapping:
             soup = BeautifulSoup(html, 'html.parser')
 
             products = soup.find('ul', {'class':'productListContent-frGrtf5XrVXRwJ05HUfU productListContent-rEYj2_8SETJUeqNhyzSm'})\
-                        .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'}, limit=1)
+                        .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'}, limit=3)
             
             for item in products:
                 #print(item)
@@ -167,143 +175,28 @@ class WebScrapping:
                 title=item.h3.text
                 productTitles.append(title)
                 
-                image=item.find('div',{'class':'moria-ProductCard-dhSYSm iVMOsM sip5m7paym9'})
+                price=item.find('div',{'data-test-id':'price-current-price'}).text
+                productPrices.append(price.split(' ')[0])
                 
-                # all link
-            
-        # print(len(productLinks))
-        # print(productLinks)
-        
-        for link in productLinks:
-            # icerde gezip ozellikleri alıcaz
-            response2 = requests.get(link, headers=self.headers)          
-            html2 = response2.content #response ı html icerigine ceviriyoruz
-            soup2 = BeautifulSoup(html2, 'html.parser') #icerigi parse ediyoruz
-
-            price = soup2.find('span', {"data-bind":"markupText:'currentPriceBeforePoint'"}).text.strip()
-            # tam kismi
-            price += ','+soup2.find('span', {'data-bind':"markupText:'currentPriceAfterPoint'"}).text.strip()
-            # kurus kismi
-
-            try:
-                # bazı ürünlerde rating olmuyor exception fırlatıyor otomatik sıfır atarız
-                rating = soup2.find('span', {'class':'rating-star'}).text.strip()
-            except Exception as ex:
-                rating = str(0)
-
-            name = soup2.find('h2', {'class':'product-features-text'}).text.strip().split(' ')[0]
-                    #bu sekilde texte ilk basta marka ismi oluyor onu cektik
-            
-            print(name)
-            print("")
-            
-            features = soup2.find('table', {'class':'data-list tech-spec'}).find_all('tr')
-
-            for feaure in features:
+                marka=title.split(' ')[0]
+                productMarkas.append(marka)
                 
-                if feaure.th.text == 'İşletim Sistemi':
-                    
-                    if feaure.td.span == None:
-                        isletimSistemi = feaure.td.a.text.strip()
-                    else:
-                        isletimSistemi = feaure.td.span.text.strip()
-
-                elif feaure.th.text == 'İşlemci Tipi':
-                    
-                    if feaure.td.span == None:
-                        islemciTipi = feaure.td.a.text.strip()
-                    else:
-                        islemciTipi = feaure.td.span.text.strip()
+                image=item.find('div',{'data-test-id':'product-card-image-container'}).find('img').get('src')
+                productImageLinks.append(image)
                 
-                elif feaure.th.text == 'İşlemci Nesli':
-                   
-                    if feaure.td.span == None:
-                        islemciNesli = feaure.td.a.text.strip()
-                    else:
-                        islemciNesli = feaure.td.span.text.strip()
+                try:
+                    rating=item.find('ul',{'data-baseweb':'star-rating'}).find_all('li')
+                    toplam_puan=0
+                    for rate in rating:
+                        try:
+                            toplam_puan+=float(rate.find('div').get('width')[0:len(rate.find('div').get('width'))-1])
+                        except:
+                            toplam_puan="0"
+                            break
+                    productStarts.append(toplam_puan/100)
+                except:
+                    productStarts.append('0')
                 
-                elif feaure.th.text == 'Ram (Sistem Belleği)':
-                    if feaure.td.span == None:
-                        ram = feaure.td.a.text.strip()
-                    else:
-                        ram = feaure.td.span.text.strip()
-                
-                elif feaure.th.text == 'SSD Kapasitesi':
-                    # if feaure.get('a').text.strip() != 'Yok':
-                    #     try:
-                    #         diskBoyutu = feaure.span.text.strip()
-                    #     except:
-                    #         diskboyutu=feaure.get('a').text.strip()
-                    #     diskTuru='SSD'
-                    
-                    if feaure.td.span == None:
-                        if feaure.td.a.text.strip() != "Yok":
-                            diskBoyutu = feaure.td.a.text.strip()
-                            diskTuru='SSD'
-                    else:
-                        if feaure.td.span.text.strip() != "Yok":
-                            diskBoyutu = feaure.td.span.text.strip()
-                            diskTuru='SSD'
-
-
-                
-                elif feaure.th.text == 'Harddisk Kapasitesi':
-                    if feaure.td.span == None:
-                        if feaure.td.a.text.strip() != "Yok":
-                            diskBoyutu = feaure.td.a.text.strip()
-                            diskTuru='HDD'
-                    else:
-                        if feaure.td.span.text.strip() != "Yok":
-                            diskBoyutu = feaure.td.span.text.strip()
-                            diskTuru='HDD'
-       
-                elif feaure.th.text == 'Ekran Boyutu':
-                    if feaure.td.span == None:
-                        ekranBoyutu = feaure.td.a.text.strip()
-                        
-                    else:
-                        ekranBoyutu = feaure.td.span.text.strip()
-                    
-
-                        
-                    
-            
-            puani = rating
-            fiyat = price
-            title= productTitles[index]
-            site="hepsiburada"
-            modelNo=""
-            modelAdi=""
-            marka = name
-            index=index+1
-            
-
-
-            productDict = {
-                'marka':marka,
-                'modelAdi':modelAdi,
-                'modelNo':modelNo,
-                'isletimSistemi':isletimSistemi,
-                'islemciTipi':islemciTipi,
-                'islemciNesli':islemciNesli,
-                'ram':ram,
-                'diskBoyutu':diskBoyutu,
-                'diskTuru':diskTuru,
-                'ekranBoyu':ekranBoyutu,
-                'puani':puani,
-                'fiyat':fiyat,
-                'site':site,
-                'prodLink': link,
-                'prodTitle':title,
-                'imageLink':"",      
-            }
-
-
-            print(productDict)
-            print('*'*100)
-
-            # eksikler - modelNo - modelAdi
-
     def trendyol(self):
         
         product_urls=[]
@@ -318,7 +211,7 @@ class WebScrapping:
             base_url="https://www.trendyol.com/laptop-x-c103108?pi={0}".format(page)
             response=requests.get(base_url)
             soup=BeautifulSoup(response.content,'html.parser')
-            products=soup.find('div',{'class':'prdct-cntnr-wrppr'}).find_all('div',{'class':'p-card-wrppr'},limit=2)
+            products=soup.find('div',{'class':'prdct-cntnr-wrppr'}).find_all('div',{'class':'p-card-wrppr'},limit=3)
             for product in products:
                 url=product.find('a').get('href')
                 product_url="https://www.trendyol.com"+url
@@ -380,6 +273,8 @@ class WebScrapping:
                     ram=feature.find_all('span')[1].text
                 elif(feature.span.text=='Hard Disk Kapasitesi'):
                     hdd_kapasitesi=feature.find_all('span')[1].text
+                elif(feature.span.text=='İşlemci Modeli'):
+                    islemci_modeli=feature.find_all('span')[1].text
             
             if(hdd_kapasitesi=="Yok" or hdd_kapasitesi=='HDD Yok'):
                 disk_tipi="SSD"
@@ -393,6 +288,7 @@ class WebScrapping:
                 
             model_no=""
             pro_price=product_prices[index2]
+            pro_price=self.shapeFiyat(pro_price)
             pro_name=product_names[index2]
             pro_modal_name=product_modal_names[index2]
             pro_rating=product_ratings[index2]
@@ -401,6 +297,16 @@ class WebScrapping:
             pro_title=product_titles[index2]
             index2=index2+1
             pro_site="Trendyol"
+            
+            if(islemci_tipi.find('Intel')!=-1 or islemci_tipi.find('INTEL')!=-1):
+                split=islemci_nesli.split('.')[0]
+                islemci_nesli=split
+            elif(islemci_tipi.find('AMD')!=-1 or islemci_tipi.find('Amd')!=-1):
+                islemci_nesli=islemci_modeli[0]
+            
+            ekran_boyutu=self.shapeEkranBoyutu(ekran_boyutu)
+            isletim_sistemi=self.shapeIsletimSistemi(isletim_sistemi)
+            
             
             productDict = {
                         'marka':pro_name,
@@ -420,9 +326,10 @@ class WebScrapping:
                         'prodTitle':pro_title,
                         'site':pro_site
                     }
-  
             self.pcTrendyolList.append(productDict)
-                
+        for item in self.pcTrendyolList:
+            print(item)
+            print('*'*100)             
             
     def teknosa(self):
         for page in range(1,2):
@@ -434,7 +341,7 @@ class WebScrapping:
             response=requests.get(base_url,headers=self.headers)
             soup=BeautifulSoup(response.content,'html.parser')
 
-            products=soup.find('div',{'class':'products'}).find_all('div',{'id':'product-item'})
+            products=soup.find('div',{'class':'products'}).find_all('div',{'id':'product-item'},limit=3)
 
             product_links=[]
             product_titles=[]
@@ -499,6 +406,7 @@ class WebScrapping:
             
             pro_title=product_titles[index2]
             pro_price=product_prices[index2]
+            pro_price=self.shapeFiyat(pro_price)
             pro_name=product_marka_names[index2]
             pro_modal_name=product_titles[index2].split(' ')[1]
             pro_url=product_links[index2]
@@ -516,6 +424,9 @@ class WebScrapping:
                 kapasite=hdd_kapasitesi
                 disk_turu='HDD'
             
+            islemci_nesli=self.teknosaNesilShaper(islemci_nesli)
+            ekran_boyutu=self.shapeEkranBoyutu(ekran_boyutu)
+            isletim_sistemi=self.shapeIsletimSistemi(isletim_sistemi)
             
             productDict = {
                             'marka':pro_name,
@@ -536,7 +447,9 @@ class WebScrapping:
                             'site':pro_site
             }
             
-            print(productDict)
+            self.pcTeknosaList.append(productDict)
+        for item in self.pcTeknosaList:
+            print(item)
             print('*'*100)
 
     def ciceksepeti(self):
@@ -546,14 +459,14 @@ class WebScrapping:
         product_image_links=[]
         product_titles=[]
         index = 0
-        for aa in range(1,3):
+        for aa in range(1,2):
             urlForCicekSepeti = "https://www.ciceksepeti.com/dizustu-bilgisayar-laptop?page={0}".format(aa)
             print("Processing for {0}".format(urlForCicekSepeti))
             response=requests.get(urlForCicekSepeti)
             html=response.content
             soup=BeautifulSoup(html,'html.parser')
             isletimsistemi='Freedos'
-            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=5)
+            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=3)
 
 
             for item in product_list:
@@ -625,8 +538,8 @@ class WebScrapping:
                     kapasite='Belirtilmemiş'
             if(kapasite=='Yok'):
                 kapasite='Belirtilmemiş'
-            print(index)
             fiyat=product_prices[index]
+            fiyat=self.shapeFiyat(fiyat)
             disk_tipi=product_disc_types[index]
             imageLink=product_image_links[index]
             prodTitle=product_titles[index]
@@ -639,7 +552,9 @@ class WebScrapping:
             site='Çiçek Sepeti'
             puani='0'
             
-
+            isletimsistemi=self.shapeIsletimSistemi(isletimsistemi)
+            ekran_boyutu=self.shapeEkranBoyutu(ekran_boyutu)
+            islemcinesli=self.csNesilShaper(islemcinesli)
             productDict = {
                         'marka':marka,
                         'modelAdi':model_adi,
@@ -658,27 +573,51 @@ class WebScrapping:
                         'prodTitle':prodTitle,
                         'site':site
                     }
-
-            print(productDict)
-            print('*'*100)
             self.pcCicekSepetiList.append(productDict)
-        
+        for item in self.pcCicekSepetiList:
+            print(item)
+            print('*'*100)  
 
-# AMD Kontrol et 
-    def shapeIslemciNesli(self, item):
-        
-        # bu metod 11 - 12 - 10 tarzı yazar
-        # bulunamadi veya yok tarzı yazılara yok yazar
-        # amd ryzen gibi seylerde yok yazıyor
-        # simdilik sadece printletiyorum deger dondurmuyorum
-        if item.find('.') != -1:
+    def n11NesilShaper(self,item):
+
+        item=item.strip()
+        if(item.find('AMD')!=-1 or item.find('Ryzen')!=-1 or item.find('RYZEN')!=-1 or item.find('Amd')!=-1):
+
+                cpu_split=item.split(' ')
+                islemci_nesli=cpu_split[-1]
+                if(islemci_nesli.find('-')!=-1):
+                    islemci_nesil=islemci_nesli.split('-')[-1]
+                else:
+                    islemci_nesil=islemci_nesli
+                
+                return islemci_nesil[0]
+            
+        elif(item.find('tel')!=-1 or item.find('TEL')!=-1):
+            if item.find('.') != -1:
             # nokta bulundu
-            item = item[:item.find('.')].strip()
-        elif item.find('-') != -1:
-            item = item[item.find('-')+1:item.find('-')+3].strip()
-        else:
-            item = 'yok'
+                item = item[:item.find('.')].strip()
+                return item
+            elif item.find('-') != -1:
+                no = item[item.find('-')+1:item.find('-')+3]
+                if int(no)>12:
+                    no=item[item.find('-')+1:item.find('-')+2]
+                return no
+                    
+            else:
+                item = 'Yok'
+                return item
+            
+    def teknosaNesilShaper(self,item):
     
+        nesil=item.split(' ')[-1]
+        if(nesil!='Yok'):
+            nesil2=nesil.split('.')[0]
+            return nesil2   
+        return 'Yok'
+
+        
+        return item[0]
+            
     def shapeFiyat(self, item):
         
         if item.find('T') !=-1 :
@@ -698,9 +637,7 @@ class WebScrapping:
         # str to float
 
         item = float(item)
-        print(item, type(item))
-
-        # format tam.kurus
+        return item
     
     def shapeEkranBoyutu(self, item):
 
@@ -713,20 +650,16 @@ class WebScrapping:
         if item.find('.') != -1:
             item = item.replace('.',',')
         
-
-        # string tipinde 14,6 ya da 14 seklinde dondurur
-    
+        return item
+       
     def shapeIsletimSistemi(self, item):
 
         if item.find('Free') != -1:
             item = 'Freedos'
+        if item.find('Yok')!=-1:
+            item='Freedos'
+        return item
         
-        # cogunluk zaten free dos ya da windows 11 home falan
-        # bazı kıl adamlar sadece window yazmıs hic onu kurcalamadım kalsın öyle ugrasılmaz
-        # sorguda gelmez olur biter zaten cok pc olucak
-        # freedosların yazımı farkılı geliyor sitelerde Free yi gordu mu kod otomatik Freedos yazıypr
-     
-    # Çiçeksepeti sitesindeki Asus,Lenovo,Msi markalarının model numaralarını çekmeyi sağlayan fonksiyondur  
     def cs_modalnoshaper(self,title):
         
         title_split=title.split(' ')
@@ -754,11 +687,25 @@ class WebScrapping:
         else:
             return 'Belirtilmemiş'
 
-
-    def hb_modalnoshaper(self,title):
-        return 1
+    def csNesilShaper(self,title):
+        
+        if(title==None):
+            return 'Yok'
+        if(title.find('.')!=-1):
+            
+            title_split=title.split('.')[0]
+            
+            return title_split
+        
+        return 'Yok'
+        
 deneme = WebScrapping()
-deneme.hepsiBurada()
-# Tüm sitelerin scraping kodlarının fonksiyonları eklendi.
-# Database class'ı oluşturuldu. Class içerisinde database işlemlerinin fonksiyonlarını tanımlarız.(append,list eklendi)
-# Shape tarafı 11.10.2022 incelenecek.
+print('*************N11**************')
+deneme.n11()
+print('*************TEKNOSA**************')
+deneme.teknosa()
+print('*************TRENDYOL**************')
+deneme.trendyol()
+print('*************ÇİÇEKSEPETİ**************')
+deneme.ciceksepeti()
+
