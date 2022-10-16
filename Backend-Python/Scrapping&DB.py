@@ -1,4 +1,6 @@
 from asyncio.windows_events import NULL
+from audioop import ratecv
+from operator import index
 from turtle import clear
 import requests
 from bs4 import BeautifulSoup
@@ -8,8 +10,7 @@ class Database:
     
     client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
     db=client["WebScraping"]
-    mycol=db["Products"]
-    
+    mycol=db["shopping_products"]
     
     def __init__(self) -> None:
         pass
@@ -29,8 +30,6 @@ class Database:
             
         else:
             for p in prod_dict:
-                
-                if(p['modelNo']=='Yok' or p['modelNo']=='Belirtilmemiş'):
                     
                     for a in prod:
                         
@@ -38,22 +37,17 @@ class Database:
                             
                             self.delete_product(a)
                             break
-                else:
-                    
-                    for a in prod:
-                        
-                        if(a['modelNo']==p['modelNo']):
-                            print("İçine Girdim")
-                            self.delete_product(a)
-                            break
-                        
-                self.add_one_product(p)
+               
+                    self.add_one_product(p)
                   
     def delete_product(self,dict):
         
         self.mycol.delete_one(dict)
             
-
+    def delete_col(self):
+        
+        self.mycol.delete_many({})
+        
 class WebScrapping:
 
     headers = {
@@ -66,6 +60,7 @@ class WebScrapping:
     pcHepsiBuradaList=[]
     pcTrendyolList=[]
     pcCicekSepetiList=[]
+    product_id=1000
 
 
     def __init__(self) -> None:
@@ -82,17 +77,17 @@ class WebScrapping:
         productTitle=[] # all product prodtitles that visited
         index = 0
 
-        for urlIndex in range(1,2):
+        for urlIndex in range(1,4):
             # 
             # https://www.n11.com/bilgisayar/dizustu-bilgisayar
-            urlForN11 = f'https://www.n11.com/bilgisayar/dizustu-bilgisayar?pg={urlIndex}'
+            urlForN11 = f'https://www.n11.com/bilgisayar/dizustu-bilgisayar?ipg={urlIndex}'
             response = requests.get(urlForN11)
             html = response.content #response ı html icerigine ceviriyoruz
             soup = BeautifulSoup(html, 'html.parser') #icerigi parse ediyoruz
 
             
 
-            liste = soup.find('ul', {'class':'list-ul'}).find_all('li', {'class':'column'}, limit=3) #tüm listeyi al
+            liste = soup.find('ul', {'class':'list-ul'}).find_all('li', {'class':'column'}, limit=50) #tüm listeyi al
             # n11 page 1 de 24 urun var
             
 
@@ -118,8 +113,12 @@ class WebScrapping:
 
             features = soup2.find_all('li', {'class':'unf-prop-list-item'})
             # feaures has 23 attribute
-            raiting = soup2.find('div', {'class':'ratingCont'}).strong.text.strip()      
-            # dynamc raiting
+            raiting = soup2.find('div', {'class':'ratingCont'}).strong
+
+            if(raiting==None):
+                raiting=0
+            else:
+                raiting=raiting.text.strip()
                  
             for feaure in features:
 
@@ -193,8 +192,10 @@ class WebScrapping:
                 'site':site,
                 'prodLink':link,
                 'prodImageLink':imageLink,
-                'prodTitle':prodTitle
+                'prodTitle':prodTitle,
+                'id':self.product_id
             }
+            self.product_id=self.product_id+1
             self.pcN11List.append(productDict)
 
     def hepsiBurada(self):
@@ -256,11 +257,11 @@ class WebScrapping:
         product_image_urls=[]
         product_titles=[]
         index2=0
-        for page in range(1,2):
+        for page in range(1,4):
             base_url="https://www.trendyol.com/laptop-x-c103108?pi={0}".format(page)
             response=requests.get(base_url)
             soup=BeautifulSoup(response.content,'html.parser')
-            products=soup.find('div',{'class':'prdct-cntnr-wrppr'}).find_all('div',{'class':'p-card-wrppr'},limit=3)
+            products=soup.find('div',{'class':'prdct-cntnr-wrppr'}).find_all('div',{'class':'p-card-wrppr'},limit=50)
             for product in products:
                 url=product.find('a').get('href')
                 product_url="https://www.trendyol.com"+url
@@ -373,12 +374,14 @@ class WebScrapping:
                         'imageLink':pro_image_url,
                         'prodLink':url,
                         'prodTitle':pro_title,
-                        'site':pro_site
+                        'site':pro_site,
+                        'id':self.product_id,
                     }
+            self.product_id=self.product_id+1
             self.pcTrendyolList.append(productDict)       
             
     def teknosa(self):
-        for page in range(1,2):
+        for page in range(0,2):
             base_url="https://www.teknosa.com/laptop-notebook-c-116004?s=%3Arelevance&page={0}".format(page)
             headers={
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
@@ -387,7 +390,7 @@ class WebScrapping:
             response=requests.get(base_url,headers=self.headers)
             soup=BeautifulSoup(response.content,'html.parser')
 
-            products=soup.find('div',{'class':'products'}).find_all('div',{'id':'product-item'},limit=3)
+            products=soup.find('div',{'class':'products'}).find_all('div',{'id':'product-item'},limit=50)
 
             product_links=[]
             product_titles=[]
@@ -412,88 +415,88 @@ class WebScrapping:
                 else:
                     product_base_image_urls.append(product_base_image_url)
 
-        for pr_link in product_links:
-            
-            response2=requests.get(pr_link,headers=self.headers)
-            soup2=BeautifulSoup(response2.content,'html.parser')
-            
-            product_rating=soup2.find('div',{'class':'bv-flex-container-column'})
-            features=(soup2.find('div',{'class':'pdp-accordion'}).find('div',{'class':'pdp-acc pdp-section'}).find('div',{'class':'ptf-body'}).find_all('table'))
-            nammes=[]
-            fss=[] 
-            for m in features:
-                names=m.find_all('th')
-                for name in names:
-                    nammes.append(name.text)
-                fs=m.find_all('td')
-                for fsss in fs:
-                    fss.append(fsss.text) 
-            
-            for i in range(0,len(nammes)):
+            for pr_link in product_links:
                 
-                if(nammes[i]=='SSD Kapasitesi'):
-                    ssd_kapasitesi=fss[i]
-                elif(nammes[i]=='Ekran Boyutu'):
-                    ekran_boyutu=fss[i]
-                elif(nammes[i]=='Model Kodu'):
-                    model_kodu=fss[i]
-                elif(nammes[i]=='HDD Kapasitesi'):
-                    hdd_kapasitesi=fss[i]
-                elif(nammes[i]=='Disk Türü'):
-                    disk_turu=fss[i]
-                elif(nammes[i]=='İşlemci'):
-                    islemci=fss[i]
-                elif(nammes[i]=='İşlemci Nesli'):
-                    islemci_nesli=fss[i]
-                elif(nammes[i]=='İşletim Sistemi Yazılımı'):
-                    isletim_sistemi=fss[i]
-                elif(nammes[i]=='Ram'):
-                    ram=fss[i]
-            
-            pro_title=product_titles[index2]
-            pro_price=product_prices[index2]
-            pro_price=self.shapeFiyat(pro_price)
-            pro_name=product_marka_names[index2]
-            pro_modal_name=product_titles[index2].split(' ')[1]
-            pro_url=product_links[index2]
-            pro_image_url=product_base_image_urls[index2]
-            index2=index2+1
-            pro_site="Trendyol"
-            
-            if(hdd_kapasitesi!='Yok' and ssd_kapasitesi!='Yok'):
-                kapasite=(hdd_kapasitesi)+(ssd_kapasitesi)
-                disk_turu='SSD+HDD'
-            elif(hdd_kapasitesi=='Yok' and ssd_kapasitesi!='Yok'):
-                kapasite=ssd_kapasitesi
-                disk_turu='SSD'
-            elif(ssd_kapasitesi=='Yok' and hdd_kapasitesi!='Yok'):
-                kapasite=hdd_kapasitesi
-                disk_turu='HDD'
-            
-            islemci_nesli=self.teknosaNesilShaper(islemci_nesli)
-            ekran_boyutu=self.shapeEkranBoyutu(ekran_boyutu)
-            isletim_sistemi=self.shapeIsletimSistemi(isletim_sistemi)
-            
-            productDict = {
-                            'marka':pro_name,
-                            'modelAdi':pro_modal_name,
-                            'modelNo':model_kodu,
-                            'isletimSistemi':isletim_sistemi,
-                            'islemciTipi':islemci,
-                            'islemciNesli':islemci_nesli,
-                            'ram':ram,
-                            'diskBoyutu':kapasite,
-                            'diskTuru':disk_turu,
-                            'ekranBoyu':ekran_boyutu,
-                            'puani':'0',
-                            'fiyat':pro_price,
-                            'prodLink':pr_link,
-                            'imageLink':pro_image_url,
-                            'prodTitle':pro_title,
-                            'site':pro_site
-            }
-            
-            self.pcTeknosaList.append(productDict)
+                response2=requests.get(pr_link)
+                soup2=BeautifulSoup(response2.content,'html.parser')
+                
+                product_rating=soup2.find('div',{'class':'bv-flex-container-column'})
+                features=(soup2.find('div',{'class':'pdp-accordion'}).find('div',{'class':'pdp-acc pdp-section'}).find('div',{'class':'ptf-body'}).find_all('table'))
+                nammes=[]
+                fss=[] 
+                for m in features:
+                    names=m.find_all('th')
+                    for name in names:
+                        nammes.append(name.text)
+                    fs=m.find_all('td')
+                    for fsss in fs:
+                        fss.append(fsss.text) 
+                
+                for i in range(0,len(nammes)):
+                    
+                    if(nammes[i]=='SSD Kapasitesi'):
+                        ssd_kapasitesi=fss[i]
+                    elif(nammes[i]=='Ekran Boyutu'):
+                        ekran_boyutu=fss[i]
+                    elif(nammes[i]=='Model Kodu'):
+                        model_kodu=fss[i]
+                    elif(nammes[i]=='HDD Kapasitesi'):
+                        hdd_kapasitesi=fss[i]
+                    elif(nammes[i]=='Disk Türü'):
+                        disk_turu=fss[i]
+                    elif(nammes[i]=='İşlemci'):
+                        islemci=fss[i]
+                    elif(nammes[i]=='İşlemci Nesli'):
+                        islemci_nesli=fss[i]
+                    elif(nammes[i]=='İşletim Sistemi Yazılımı'):
+                        isletim_sistemi=fss[i]
+                    elif(nammes[i]=='Ram'):
+                        ram=fss[i]
+                
+                pro_title=product_titles[index2]
+                pro_price=product_prices[index2]
+                pro_price=self.shapeFiyat(pro_price)
+                pro_name=product_marka_names[index2]
+                pro_modal_name=product_titles[index2].split(' ')[1]
+                pro_image_url=product_base_image_urls[index2]
+                index2=index2+1
+                pro_site="Teknosa"
+                
+                if(hdd_kapasitesi!='Yok' and ssd_kapasitesi!='Yok'):
+                    kapasite=(hdd_kapasitesi)+(ssd_kapasitesi)
+                    disk_turu='SSD+HDD'
+                elif(hdd_kapasitesi=='Yok' and ssd_kapasitesi!='Yok'):
+                    kapasite=ssd_kapasitesi
+                    disk_turu='SSD'
+                elif(ssd_kapasitesi=='Yok' and hdd_kapasitesi!='Yok'):
+                    kapasite=hdd_kapasitesi
+                    disk_turu='HDD'
+                
+                islemci_nesli=self.teknosaNesilShaper(islemci_nesli)
+                ekran_boyutu=self.shapeEkranBoyutu(ekran_boyutu)
+                isletim_sistemi=self.shapeIsletimSistemi(isletim_sistemi)
+                
+                productDict = {
+                                'marka':pro_name,
+                                'modelAdi':pro_modal_name,
+                                'modelNo':model_kodu,
+                                'isletimSistemi':isletim_sistemi,
+                                'islemciTipi':islemci,
+                                'islemciNesli':islemci_nesli,
+                                'ram':ram,
+                                'diskBoyutu':kapasite,
+                                'diskTuru':disk_turu,
+                                'ekranBoyu':ekran_boyutu,
+                                'puani':'0',
+                                'fiyat':pro_price,
+                                'prodLink':pr_link,
+                                'imageLink':pro_image_url,
+                                'prodTitle':pro_title,
+                                'site':pro_site,
+                                'id': self.product_id
+                }
+                self.product_id=self.product_id+1
+                self.pcTeknosaList.append(productDict)
 
     def ciceksepeti(self):
         product_links = []
@@ -502,14 +505,14 @@ class WebScrapping:
         product_image_links=[]
         product_titles=[]
         index = 0
-        for aa in range(1,2):
+        for aa in range(1,4):
             urlForCicekSepeti = "https://www.ciceksepeti.com/dizustu-bilgisayar-laptop?page={0}".format(aa)
             print("Processing for {0}".format(urlForCicekSepeti))
             response=requests.get(urlForCicekSepeti)
             html=response.content
             soup=BeautifulSoup(html,'html.parser')
             isletimsistemi='Freedos'
-            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=10)
+            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=50)
 
 
             for item in product_list:
@@ -614,8 +617,10 @@ class WebScrapping:
                         'prodLink':url,
                         'imageLink':imageLink,
                         'prodTitle':prodTitle,
-                        'site':site
+                        'site':site,
+                        'id':self.product_id,
                     }
+            self.product_id=self.product_id+1
             self.pcCicekSepetiList.append(productDict)
 
     def n11NesilShaper(self,item):
@@ -704,7 +709,6 @@ class WebScrapping:
         
         title_split=title.split(' ')
         marka=title_split[0]
-        print(marka)
         if(marka=="Lenovo" or marka=="LENOVO"):
             if((title_split[-1]).startswith('20') or (title_split[-1]).startswith('82') or title_split[-1].startswith('21')):
                 return title_split[-1]
@@ -740,18 +744,21 @@ class WebScrapping:
         return 'Yok'
         
 scraping = WebScrapping()
-# scraping.n11()
+print('N11 Data Scrapping')
+scraping.n11()
+print('Teknosa Data Scrapping')
 scraping.teknosa()
-# scraping.trendyol()
-# scraping.ciceksepeti()
+print('Trendyol Data Scrapping')
+scraping.trendyol()
+print('Çiçeksepeti Data Scrapping')
+scraping.ciceksepeti()
 
 database = Database()
-
-# database.add_product(scraping.pcCicekSepetiList)
-# database.add_product(scraping.pcN11List)
-# database.add_product(scraping.pcTrendyolList)
+database.control_add_product(scraping.pcCicekSepetiList)
+database.control_add_product(scraping.pcN11List)
+database.control_add_product(scraping.pcTrendyolList)
 database.control_add_product(scraping.pcTeknosaList)
-
+#database.delete_col()
 
 
 
