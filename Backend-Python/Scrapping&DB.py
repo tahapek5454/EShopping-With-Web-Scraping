@@ -207,7 +207,7 @@ class WebScrapping:
         productStarts=[]
         index=0
         # sayfaki genel tum urunlerin linkini alma kısmı
-        for urlIndex in range(1,2):
+        for urlIndex in range(1,5):
             urlForHepsiBurada = f'https://www.hepsiburada.com/laptop-notebook-dizustu-bilgisayarlar-c-98?sayfa={urlIndex}'
             # first page
             response = requests.get(urlForHepsiBurada, headers=self.headers)
@@ -215,7 +215,7 @@ class WebScrapping:
             soup = BeautifulSoup(html, 'html.parser')
 
             products = soup.find('ul', {'class':'productListContent-frGrtf5XrVXRwJ05HUfU productListContent-rEYj2_8SETJUeqNhyzSm'})\
-                        .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'}, limit=3)
+                        .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'}, limit=100)
             
             for item in products:
                 #print(item)
@@ -246,6 +246,28 @@ class WebScrapping:
                     productStarts.append(toplam_puan/100)
                 except:
                     productStarts.append('0')
+                    
+                productDict = {
+                        'marka':productMarkas[index],
+                        'modelAdi':"",
+                        'modelNo':"",
+                        'isletimSistemi':"",
+                        'islemciTipi':"",
+                        'islemciNesli':"",
+                        'ram':"",
+                        'diskBoyutu':"",
+                        'diskTuru':"",
+                        'ekranBoyu':"",
+                        'puani':productStarts[index],
+                        'fiyat':productPrices[index],
+                        'imageLink':productImageLinks[index],
+                        'prodLink':productLinks[index],
+                        'prodTitle':productTitles[index],
+                        'site':"Hepsiburada",
+                    }
+                index=index+1
+                print(productDict)
+                print('*'*100)
                 
     def trendyol(self):
         
@@ -744,21 +766,23 @@ class WebScrapping:
         return 'Yok'
         
 scraping = WebScrapping()
-print('N11 Data Scrapping')
-scraping.n11()
-print('Teknosa Data Scrapping')
-scraping.teknosa()
-print('Trendyol Data Scrapping')
-scraping.trendyol()
-print('Çiçeksepeti Data Scrapping')
-scraping.ciceksepeti()
+# print('N11 Data Scrapping')
+# scraping.n11()
+# print('Teknosa Data Scrapping')
+# scraping.teknosa()
+# print('Trendyol Data Scrapping')
+# scraping.trendyol()
+# print('Çiçeksepeti Data Scrapping')
+# scraping.ciceksepeti()
+# print('HepsiBurada Scrapping')
+# scraping.hepsiBurada()
 
-database = Database()
-database.control_add_product(scraping.pcCicekSepetiList)
-database.control_add_product(scraping.pcN11List)
-database.control_add_product(scraping.pcTrendyolList)
-database.control_add_product(scraping.pcTeknosaList)
+# database = Database()
+# database.control_add_product(scraping.pcCicekSepetiList)
+# database.control_add_product(scraping.pcN11List)
+# database.control_add_product(scraping.pcTrendyolList)
+# database.control_add_product(scraping.pcTeknosaList)
 #database.delete_col()
 
-
+# (Hepsinden data çekilip veritabanına başarılı bir şekilde yazılıyor. Aynı ürünlerin bulunup sitede gösterilmesi gerekir. Kategoriler ile eşlenmesi gerekir. Index yapısına bakılması gerekir. Search button aktif edilmesi gerekir. Ayrıntı bilgilerinin görüntülenmesi gerekir.)
 
