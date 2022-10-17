@@ -378,7 +378,13 @@ class WebScrapping:
             self.pcTrendyolList.append(productDict)       
             
     def teknosa(self):
-        for page in range(1,2):
+        product_links=[]
+        product_titles=[]
+        product_prices=[]
+        product_marka_names=[]
+        product_base_image_urls=[]
+        index2=0
+        for page in range(1,3):
             base_url="https://www.teknosa.com/laptop-notebook-c-116004?s=%3Arelevance&page={0}".format(page)
             headers={
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
@@ -387,14 +393,9 @@ class WebScrapping:
             response=requests.get(base_url,headers=self.headers)
             soup=BeautifulSoup(response.content,'html.parser')
 
-            products=soup.find('div',{'class':'products'}).find_all('div',{'id':'product-item'},limit=3)
+            products=soup.find('div',{'class':'products'}).find_all('div',{'id':'product-item'})
 
-            product_links=[]
-            product_titles=[]
-            product_prices=[]
-            product_marka_names=[]
-            product_base_image_urls=[]
-            index2=0
+            
 
             for product in products:
                 product_url=product.find('a',{'class':'prd-link'}).get('href')
@@ -428,7 +429,7 @@ class WebScrapping:
                 fs=m.find_all('td')
                 for fsss in fs:
                     fss.append(fsss.text) 
-            
+            model_kodu = ""
             for i in range(0,len(nammes)):
                 
                 if(nammes[i]=='SSD Kapasitesi'):
@@ -450,6 +451,7 @@ class WebScrapping:
                 elif(nammes[i]=='Ram'):
                     ram=fss[i]
             
+            
             pro_title=product_titles[index2]
             pro_price=product_prices[index2]
             pro_price=self.shapeFiyat(pro_price)
@@ -457,7 +459,12 @@ class WebScrapping:
             pro_modal_name=product_titles[index2].split(' ')[1]
             pro_url=product_links[index2]
             pro_image_url=product_base_image_urls[index2]
+
             index2=index2+1
+            if model_kodu == "":
+                continue
+
+            
             pro_site="Trendyol"
             
             if(hdd_kapasitesi!='Yok' and ssd_kapasitesi!='Yok'):
@@ -493,6 +500,8 @@ class WebScrapping:
                             'site':pro_site
             }
             
+            print(index2)
+            print(productDict)
             self.pcTeknosaList.append(productDict)
 
     def ciceksepeti(self):
@@ -750,7 +759,7 @@ database = Database()
 # database.add_product(scraping.pcCicekSepetiList)
 # database.add_product(scraping.pcN11List)
 # database.add_product(scraping.pcTrendyolList)
-database.control_add_product(scraping.pcTeknosaList)
+# database.control_add_product(scraping.pcTeknosaList)
 
 
 
