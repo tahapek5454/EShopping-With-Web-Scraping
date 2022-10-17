@@ -1,0 +1,70 @@
+#main-navbar .navbar-brand {
+    font-weight: 700;
+}
+
+/* navbar linklerine ozellik eklendi */
+
+#main-navbar .navbar-nav .nav-item .nav-link.active,
+#main-navbar .navbar-nav .nav-item .nav-link:hover {
+    color: rgb(230, 149, 0);
+}
+
+/* form butonuna efekt eklendi */
+
+#navbar-form #navbar-form-button:hover {
+    background-color: rgb(230, 149, 0);
+    color: white;
+}
+
+
+/* checkbutton css */
+.form-check-input:checked {
+    background-color: rgb(230, 149, 0);
+    border-color: rgb(230, 149, 0);
+
+    box-shadow: rgb(230, 149, 0) 0px 7px 29px 0px;
+}
+
+.form-check-input:focus {
+    box-shadow: rgb(230, 149, 0) 0px 7px 29px 0px;
+    border-color: rgb(230, 149, 0);
+}
+
+/* sıralaa iyi yerlessin diye yapıldı */
+
+.myPaddingForSpecialRow {
+    padding-right: 70px;
+    padding-left: 70px;
+}
+
+/* pc image boyutu ayarı */
+.pcImage {
+
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+}
+
+/* urun yıldızlarını renkleri */
+
+.starColor {
+    color: yellow;
+}
+
+
+/* linkleri  guzellestirmek */
+a:link {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a:active {
+    text-decoration: underline;
+  }

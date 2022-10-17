@@ -1,15 +1,19 @@
 from asyncio.windows_events import NULL
+from audioop import ratecv
+from operator import index
+from os import scandir
+from this import s
 from turtle import clear
+from gridfs import Database
 import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
-class Database:
+class UcuzlukPazari_Database:
     
     client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
     db=client["WebScraping"]
-    mycol=db["Products"]
-    
+    mycol=db["shopping_products"]
     
     def __init__(self) -> None:
         pass
@@ -29,8 +33,6 @@ class Database:
             
         else:
             for p in prod_dict:
-                
-                if(p['modelNo']=='Yok' or p['modelNo']=='Belirtilmemiş'):
                     
                     for a in prod:
                         
@@ -38,22 +40,62 @@ class Database:
                             
                             self.delete_product(a)
                             break
-                else:
-                    
-                    for a in prod:
-                        
-                        if(a['modelNo']==p['modelNo']):
-                            print("İçine Girdim")
-                            self.delete_product(a)
-                            break
-                        
-                self.add_one_product(p)
+               
+                    self.add_one_product(p)
                   
     def delete_product(self,dict):
         
         self.mycol.delete_one(dict)
             
+    def delete_col(self):
+        
+        self.mycol.delete_many({})
+    
 
+class EcommerceWeb_Database:
+    
+    client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
+    db=client["EcommerceProdData"]
+    mycol=db["ecommerce_prods"]
+    
+    def __init__(self) -> None:
+        pass
+    
+    def add_dict_product(self,prod_dict):
+        self.mycol.insert_many(prod_dict)
+        
+    def add_one_product(self,dict):
+        self.mycol.insert_one(dict)
+        
+    def control_add_product(self,prod_dict):
+        
+        prod= self.mycol.find()
+        if(prod==None):
+            
+            self.add_dict_product(prod_dict)
+            
+        else:
+            for p in prod_dict:
+                    
+                    for a in prod:
+                        
+                        if(a['prodTitle']==p['prodTitle']):
+                            
+                            self.delete_product(a)
+                            break
+               
+                    self.add_one_product(p)
+                  
+    def delete_product(self,dict):
+        
+        self.mycol.delete_one(dict)
+            
+    def delete_col(self):
+        
+        self.mycol.delete_many({})    
+
+
+    
 class WebScrapping:
 
     headers = {
@@ -66,6 +108,7 @@ class WebScrapping:
     pcHepsiBuradaList=[]
     pcTrendyolList=[]
     pcCicekSepetiList=[]
+    product_id=1000
 
 
     def __init__(self) -> None:
@@ -82,17 +125,17 @@ class WebScrapping:
         productTitle=[] # all product prodtitles that visited
         index = 0
 
-        for urlIndex in range(1,2):
+        for urlIndex in range(1,20):
             # 
             # https://www.n11.com/bilgisayar/dizustu-bilgisayar
-            urlForN11 = f'https://www.n11.com/bilgisayar/dizustu-bilgisayar?pg={urlIndex}'
+            urlForN11 = f'https://www.n11.com/bilgisayar/dizustu-bilgisayar?ipg={urlIndex}'
             response = requests.get(urlForN11)
             html = response.content #response ı html icerigine ceviriyoruz
             soup = BeautifulSoup(html, 'html.parser') #icerigi parse ediyoruz
 
             
 
-            liste = soup.find('ul', {'class':'list-ul'}).find_all('li', {'class':'column'}, limit=3) #tüm listeyi al
+            liste = soup.find('ul', {'class':'list-ul'}).find_all('li', {'class':'column'}) #tüm listeyi al
             # n11 page 1 de 24 urun var
             
 
@@ -118,8 +161,12 @@ class WebScrapping:
 
             features = soup2.find_all('li', {'class':'unf-prop-list-item'})
             # feaures has 23 attribute
-            raiting = soup2.find('div', {'class':'ratingCont'}).strong.text.strip()      
-            # dynamc raiting
+            raiting = soup2.find('div', {'class':'ratingCont'}).strong
+
+            if(raiting==None):
+                raiting=0
+            else:
+                raiting=raiting.text.strip()
                  
             for feaure in features:
 
@@ -193,8 +240,10 @@ class WebScrapping:
                 'site':site,
                 'prodLink':link,
                 'prodImageLink':imageLink,
-                'prodTitle':prodTitle
+                'prodTitle':prodTitle,
+                'id':self.product_id
             }
+            self.product_id=self.product_id+1
             self.pcN11List.append(productDict)
 
     def hepsiBurada(self):
@@ -206,7 +255,7 @@ class WebScrapping:
         productStarts=[]
         index=0
         # sayfaki genel tum urunlerin linkini alma kısmı
-        for urlIndex in range(1,2):
+        for urlIndex in range(1,20):
             urlForHepsiBurada = f'https://www.hepsiburada.com/laptop-notebook-dizustu-bilgisayarlar-c-98?sayfa={urlIndex}'
             # first page
             response = requests.get(urlForHepsiBurada, headers=self.headers)
@@ -214,7 +263,7 @@ class WebScrapping:
             soup = BeautifulSoup(html, 'html.parser')
 
             products = soup.find('ul', {'class':'productListContent-frGrtf5XrVXRwJ05HUfU productListContent-rEYj2_8SETJUeqNhyzSm'})\
-                        .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'}, limit=3)
+                        .find_all('li', {'class':'productListContent-zAP0Y5msy8OHn5z7T_K_'})
             
             for item in products:
                 #print(item)
@@ -245,6 +294,27 @@ class WebScrapping:
                     productStarts.append(toplam_puan/100)
                 except:
                     productStarts.append('0')
+                    
+                productDict = {
+                        'marka':productMarkas[index],
+                        'modelAdi':"",
+                        'modelNo':"",
+                        'isletimSistemi':"",
+                        'islemciTipi':"",
+                        'islemciNesli':"",
+                        'ram':"",
+                        'diskBoyutu':"",
+                        'diskTuru':"",
+                        'ekranBoyu':"",
+                        'puani':productStarts[index],
+                        'fiyat':productPrices[index],
+                        'imageLink':productImageLinks[index],
+                        'prodLink':productLinks[index],
+                        'prodTitle':productTitles[index],
+                        'site':"Hepsiburada",
+                    }
+                index=index+1
+                self.pcHepsiBuradaList.append(productDict)
                 
     def trendyol(self):
         
@@ -256,11 +326,11 @@ class WebScrapping:
         product_image_urls=[]
         product_titles=[]
         index2=0
-        for page in range(1,2):
+        for page in range(1,20):
             base_url="https://www.trendyol.com/laptop-x-c103108?pi={0}".format(page)
             response=requests.get(base_url)
             soup=BeautifulSoup(response.content,'html.parser')
-            products=soup.find('div',{'class':'prdct-cntnr-wrppr'}).find_all('div',{'class':'p-card-wrppr'},limit=3)
+            products=soup.find('div',{'class':'prdct-cntnr-wrppr'}).find_all('div',{'class':'p-card-wrppr'})
             for product in products:
                 url=product.find('a').get('href')
                 product_url="https://www.trendyol.com"+url
@@ -373,8 +443,10 @@ class WebScrapping:
                         'imageLink':pro_image_url,
                         'prodLink':url,
                         'prodTitle':pro_title,
-                        'site':pro_site
+                        'site':pro_site,
+                        'id':self.product_id,
                     }
+            self.product_id=self.product_id+1
             self.pcTrendyolList.append(productDict)       
             
     def teknosa(self):
@@ -511,14 +583,14 @@ class WebScrapping:
         product_image_links=[]
         product_titles=[]
         index = 0
-        for aa in range(1,2):
+        for aa in range(1,20):
             urlForCicekSepeti = "https://www.ciceksepeti.com/dizustu-bilgisayar-laptop?page={0}".format(aa)
             print("Processing for {0}".format(urlForCicekSepeti))
             response=requests.get(urlForCicekSepeti)
             html=response.content
             soup=BeautifulSoup(html,'html.parser')
             isletimsistemi='Freedos'
-            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'},limit=10)
+            product_list=soup.find('div',{'class':'products'}).find_all('div',{'class':'products__item'})
 
 
             for item in product_list:
@@ -623,8 +695,10 @@ class WebScrapping:
                         'prodLink':url,
                         'imageLink':imageLink,
                         'prodTitle':prodTitle,
-                        'site':site
+                        'site':site,
+                        'id':self.product_id,
                     }
+            self.product_id=self.product_id+1
             self.pcCicekSepetiList.append(productDict)
 
     def n11NesilShaper(self,item):
@@ -713,7 +787,6 @@ class WebScrapping:
         
         title_split=title.split(' ')
         marka=title_split[0]
-        print(marka)
         if(marka=="Lenovo" or marka=="LENOVO"):
             if((title_split[-1]).startswith('20') or (title_split[-1]).startswith('82') or title_split[-1].startswith('21')):
                 return title_split[-1]
@@ -747,9 +820,58 @@ class WebScrapping:
             return title_split
         
         return 'Yok'
+      
+    def ShoppingApp(self):
         
+        all_products=[]
+        
+        for prod in self.pcTeknosaList:
+            
+            equal_product=[]
+            equal_product.append(prod)
+
+            for prod2 in self.pcN11List:
+                
+                if(prod2['modelNo']!='Yok' and prod2['modelNo']!='Belirtilmemiş' and prod2['modelNo']!=''):
+                    
+                    if(prod['modelNo']==prod2['modelNo']):
+                        equal_product.append(prod2)
+                        break
+                else:
+                    if prod2['prodTitle'].find(prod['modelNo']) !=-1:
+                        equal_product.append(prod2)
+                        break
+            for prod2 in self.pcTrendyolList:
+
+                if prod2['prodTitle'].find(prod['modelNo']) !=-1:
+                    equal_product.append(prod2)
+                    break
+            for prod2 in self.pcCicekSepetiList:
+                
+                if prod2['prodTitle'].find(prod['modelNo']) !=-1:
+                    equal_product.append(prod2)
+                    break
+            
+            for prod2 in self.pcHepsiBuradaList:
+                
+                if prod2['prodTitle'].find(prod['modelNo']) !=-1:
+                    equal_product.append(prod2)
+                    break
+            
+            all_products.append(equal_product)
+            
+        for x in  all_products:
+            print(len(x))
+            print('*'*100)    
+        
+        
+        
+        
+          
 scraping = WebScrapping()
-# scraping.n11()
+print('N11 Data Scrapping')
+scraping.n11()
+print('Teknosa Data Scrapping')
 scraping.teknosa()
 # scraping.trendyol()
 # scraping.ciceksepeti()
@@ -761,6 +883,16 @@ database = Database()
 # database.add_product(scraping.pcTrendyolList)
 # database.control_add_product(scraping.pcTeknosaList)
 
+scraping.ShoppingApp()
 
+# database = Database()
+db=EcommerceWeb_Database()
+#db.control_add_product(scraping.pcTeknosaList)
+# database.control_add_product(scraping.pcCicekSepetiList)
+# database.control_add_product(scraping.pcN11List)
+# database.control_add_product(scraping.pcTrendyolList)
+# database.control_add_product(scraping.pcTeknosaList)
+#database.delete_col()
 
+# (Hepsinden data çekilip veritabanına başarılı bir şekilde yazılıyor. Aynı ürünlerin bulunup sitede gösterilmesi gerekir. Kategoriler ile eşlenmesi gerekir. Index yapısına bakılması gerekir. Search button aktif edilmesi gerekir. Ayrıntı bilgilerinin görüntülenmesi gerekir.)
 
