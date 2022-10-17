@@ -1,0 +1,55 @@
+<header>
+
+    <nav class="navbar navbar-dark bg-secondary navbar-expand-sm ">
+        
+            <a class="navbar-brand mx-2" href="{% url 'home' %}">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                UcuzlukPazarı
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end bg-secondary offcanvas-dark" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        UcuzlukPazarı
+                    </h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">AnaSayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">Hakkımızda</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Giriş Yap</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Kaydol</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Çıkış Yap</a>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex mx-2">
+                        <input class="form-control me-2" type="search" placeholder="Ara" aria-label="Ara">
+                        <button class="btn btn-outline-light" type="submit">Ara</button>
+                    </form>
+                </div>
+            </div>
+    </nav>
+
+</header>
