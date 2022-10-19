@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%} {{prods.modelNo}} {% endblock%}
+
+{%block main%}
+
+<main>
+    <div class="mt-4 mx-3">
+        <div class="row">
+
+            <!-- products start -->
+
+            <div class="row ">
+                <div class="container">
+                    <center>
+                    <img src={{prods.imageLink}} alt="Ressim Bulunamadı" class="pcImage img-responsive" style="height: 290px; width: 20%;">
+                </center>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row">
+                <center>
+                <h5>
+
+                    {{prods.prodTitle}}
+
+                </h5>
+                </center>
+            </div>
+
+            <hr>
+
+
+
+            <!-- product end -->
+
+        </div>
+
+        <h1 class="display-6 mx-3 my-3   ">Ürün Özellikleri</h1>
+
+        <table class="my-3">
+
+            <div class="row  mx-3 mb-2">
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Ürün Markası
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{ prods.marka}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            İşlemci Tipi
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.islemciTipi}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+            </div>
+
+            <div class="row  mx-3 mb-2">
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Ram
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.ram}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            İşlemci Nesli
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.islemciNesli}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+            </div>
+
+            <div class="row  mx-3 mb-2">
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Ekran Boyutu
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.ekranBoyu}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Disk Kapasitesi
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.diskBoyutu}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+            </div>
+
+            <div class="row  mx-3 mb-2">
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Model Adı
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.modelAdi}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Model Numarası
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.modelNo}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+            </div>
+
+            <div class="row  mx-3 mb-2">
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            İşletim Sistemi
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.isletimSistemi}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Disk Tipi
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{prods.diskTuru}}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+            </div>
+
+
+        </table>
+
+</main>
+
+{% endblock %}

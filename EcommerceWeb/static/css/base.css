@@ -40,9 +40,8 @@
 /* pc image boyutu ayarı */
 .pcImage {
 
-    width: 100%;
-    object-fit: cover;
-    height: 200px;
+    width: 100px;
+    height: 100px;
 }
 
 /* urun yıldızlarını renkleri */
@@ -55,16 +54,23 @@
 /* linkleri  guzellestirmek */
 a:link {
     text-decoration: none;
-  }
-  
-  a:visited {
+}
+
+a:visited {
     text-decoration: none;
-  }
-  
-  a:hover {
+}
+
+a:hover {
     text-decoration: underline;
-  }
-  
-  a:active {
+}
+
+a:active {
     text-decoration: underline;
-  }
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
