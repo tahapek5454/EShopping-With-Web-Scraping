@@ -16,7 +16,10 @@
     color: white;
 }
 
-
+#uygula{
+    background-color: orange;
+    color: white;
+}
 /* checkbutton css */
 .form-check-input:checked {
     background-color: rgb(230, 149, 0);

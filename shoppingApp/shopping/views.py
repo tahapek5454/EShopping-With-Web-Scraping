@@ -43,7 +43,6 @@ class GetDatasWithThread:
         self.hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
 
 
-
 def home(request):
 
     gdwt = GetDatasWithThread()
@@ -71,6 +70,7 @@ def home(request):
     n11AllThread.join()
     cicekSepetiAllThread.join()
     hepsiBuradaAllThread.join()
+
 
     print("Teknosa  "+ str(len(gdwt.teknosaAll)))
     print("Trend Yol    " + str(len(gdwt.trendYolAll)))
@@ -116,6 +116,54 @@ def home(request):
             allProducts.append(equalsProduct)
         
     
+    marka = set()
+    isletimSistemi = set()
+    islemciTipi = set()
+    islemciNesli = set()
+    ram = set()
+    diskTuru = set()
+    ekranBoyu = set()
+    diskBoyutu = set()
+
+    for eslesen in allProducts:
+
+        for item in eslesen:
+
+            if item.site == 'Teknosa':
+                if item.marka != "":
+                    
+                    marka.add(item.marka.capitalize())
+
+                if item.isletimSistemi !="":
+                    isletimSistemi.add(item.isletimSistemi.capitalize())
+                
+                if item.islemciTipi != "":
+                    islemciTipi.add(item.islemciTipi.capitalize())
+
+                if item.islemciNesli != "":
+                    islemciNesli.add(item.islemciNesli.capitalize())
+                
+                if item.ram != "":
+                    ram.add(item.ram.capitalize())
+                
+                if item.diskTuru != "":
+                    diskTuru.add(item.diskTuru.capitalize())
+                
+                if item.ekranBoyu != "":
+                    ekranBoyu.add(item.ekranBoyu.capitalize())
+                
+                if item.diskBoyutu != "":
+                    diskBoyutu.add(item.diskBoyutu.capitalize())
+                break
+    
+    
+    print(type(Products.objects.filter(site="Teknosa")))
+    print("Set Marka uzunlugu "+str(len(marka)))
+    print("Sets Marka")
+    print(marka)
+
+            
+
 
     # for eslesen in allProducts:
 
@@ -133,7 +181,15 @@ def home(request):
     #     break
     
     dynamicVar = {
-        'products': allProducts
+        'products': allProducts,
+        'markas':marka,
+        'isletimSistemis' : isletimSistemi,
+        'islemciTipis' : islemciTipi,
+        'islemciNeslis' : islemciNesli,
+        'rams': ram,
+        'diskTurus': diskTuru,
+        'ekranBoyus': ekranBoyu,
+        'diskBoyutus': diskBoyutu    
     }
     #tum urunleri al dedik
 

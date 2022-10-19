@@ -13,123 +13,164 @@
 {% block main %}
 
 
- <!-- main start  -->
+<!-- main start  -->
 <main>
     <div class="mt-4 mx-3">
         <div class="row">
 
+
+
             <!-- categories start -->
+
+
             <div class="col-sm-3">
+                <form action="">
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">Marka</p>
-                        </li>
-                        <li class="list-group-item a">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Asus
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Monster
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Apple
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Lenovo
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Dell
-                        </li>
-                    </ul>
-                </div>
+                    <div class="row mb-4">
+                        <center>
+                        <button type="submit" class="btn btn-outline-light" id="uygula"
+                            style="background-color: orange;">Uygula</button>
+                        </center>
+                    </div>
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">İşlemci</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i3
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i5
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i7
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i9
-                        </li>
-                    </ul>
-                </div>
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Marka</p>
+                            </li>
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">Ram</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            2GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            4GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            8GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            16GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            32GB
-                        </li>
-                    </ul>
-                </div>
+                            {% for marka in markas %}
+                            <li class="list-group-item a">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ marka }}
+                            </li>
+                            {% endfor %}
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">Ekran Boyutu</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            12
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            13.6
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            14.5
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            16.7
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            20
-                        </li>
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">İsletim Sistemi</p>
+                            </li>
+
+                            {% for isletimSistemi in isletimSistemis %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ isletimSistemi }}
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">İslemci Tipi</p>
+                            </li>
+                            
+                            {% for islemciTipi in islemciTipis %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ islemciTipi }}
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">İslemci Nesli</p>
+                            </li>
+
+                            {% for islemciNesli in islemciNeslis %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ islemciNesli }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Ram</p>
+                            </li>
+                            
+                            {% for ram in rams %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ ram }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Disk Turu</p>
+                            </li>
+                            
+                            {% for diskTuru in diskTurus %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ diskTuru }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Ekran Boyu</p>
+                            </li>
+                            
+                            {% for ekranBoyu in ekranBoyus %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ ekranBoyu }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Disk Boyutu</p>
+                            </li>
+                            
+                            {% for diskBoyutu in diskBoyutus %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{ diskBoyutu }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                </form>
+
 
             </div>
+
             <!-- categoriens end -->
 
             <!-- products start -->
@@ -166,16 +207,16 @@
 
                 <!-- laptop start -->
 
-                
+
                 <!-- include partial ile uygulama yonetşmşnş kolaylaştırıyoruz
                     pc leri ditek frame part altından çekiyoruz -->
 
-               
+
 
                 {% for product in products %}
-                    {% include 'shopping/framePart/pc.html' %}
+                {% include 'shopping/framePart/pc.html' %}
 
-                    <hr>
+                <hr>
                 {% endfor %}
 
                 <!-- her product direkt shopping framePart pc.html icersinde yollanır bilgiler -->
