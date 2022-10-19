@@ -123,74 +123,79 @@
             </div>
             <!-- categoriens end -->
 
-            <!-- products start -->
+            
             <div class="col-sm-10">
 
+                <!-- stat start -->
                 <div class="row mb-2">
 
                     <div class="col-sm-4 border rounded-pill ">
                         <center>
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            <i class="fa fa-usd" aria-hidden="true" style="color:green"></i>
+                            <i class="fa fa-arrow-up" aria-hidden="true" style="color:green"></i>
+                            <a href="{% url 'SortprodDesc' %}" style="color: black">
                             En Yüksek Fiyat
+                            </a>
                         </center>
                     </div>
                     <div class="col-sm-4 border rounded-pill">
                         <center>
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            <i class="fa fa-usd" aria-hidden="true" style="color:green"></i>
+                            <i class="fa fa-arrow-down" aria-hidden="true" style="color:red"></i>
+                            <a href="{% url 'SortprodAsc' %}" style="color: black">
                             En Düşük Fiyat
+                        </a>
                         </center>
                     </div>
                     <div class="col-sm-4 border rounded-pill">
                         <center>
-                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true" style="color: yellow"></i>
+                            <a href="{% url 'SortprodStar' %}" style="color: black">
                             En Yüksek Puan
+                        </a>
                         </center>
                     </div>
 
                 </div>
+                <!-- stat end -->
 
+                <!-- products start -->
+                <!-- pc start -->
                 <div class="row mb-2">
-                                 {% for p in prods%}   
-                    <div class="col-sm-3">
 
-                        {% include 'ecommerce/partials/_pc.html' %}
 
-                    </div>
+                    {% for p in prods%}
+                  
+                    {% include 'ecommerce/partials/_pc.html' %}
+
                     {% endfor %}
-                                                
+
                 </div>
 
-                   
+                <!-- Pc end -->                   
+                <!-- product end -->
+
+
 
                 <!-- pagination split -->
-                <div class="container">
-
-                    <nav aria-label="...">
-                        <ul class="pagination" style="margin-left:330px;">
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-
-                </div>
+                                       
+                    
+                        <center>
+                        <nav aria-label="...">
+                            <ul class="pagination pagination-lg">
+                                {% for page in paginator.page_range%}
+                              {% comment %} <li class="page-item active" aria-current="page">
+                                <span class="page-link">1</span> {% endcomment %}
+                              </li>
+                              <li class="page-item"><a class="page-link" href="?page= {{page}}">{{page}}</a></li>
+                              {% endfor %}
+                            </ul>
+                          </nav>
+                        </center>
+                    </div>
+                               
                 <!-- paginaton split end -->
 
-            </div>
-            <!-- product end -->
-
-        </div>
-</main>
 
 
 {% endblock%}

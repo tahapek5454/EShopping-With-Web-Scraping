@@ -18,5 +18,9 @@ class Prods(models.Model):
     prodLink=models.CharField(max_length = 200) 
     imageLink=models.CharField(max_length = 200) 
     prodTitle=models.CharField(max_length = 200) 
+    
+    def __str__(self):
+        
+        return f"{self.prodTitle}"
 
 
