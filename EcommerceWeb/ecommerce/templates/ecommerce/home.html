@@ -9,7 +9,6 @@
     <div class="mt-4 mx-3">
         <div class="row">
 
-            <!-- categories start -->
             <div class="col-sm-2">
 
                 <div class="row mb-4 ">
@@ -121,12 +120,9 @@
                 </div>
 
             </div>
-            <!-- categoriens end -->
-
             
             <div class="col-sm-10">
 
-                <!-- stat start -->
                 <div class="row mb-2">
 
                     <div class="col-sm-4 border rounded-pill ">
@@ -157,10 +153,7 @@
                     </div>
 
                 </div>
-                <!-- stat end -->
 
-                <!-- products start -->
-                <!-- pc start -->
                 <div class="row mb-2">
 
 
@@ -172,29 +165,8 @@
 
                 </div>
 
-                <!-- Pc end -->                   
-                <!-- product end -->
 
-
-
-                <!-- pagination split -->
-                                       
-                    
-                        <center>
-                        <nav aria-label="...">
-                            <ul class="pagination pagination-lg">
-                                {% for page in paginator.page_range%}
-                              {% comment %} <li class="page-item active" aria-current="page">
-                                <span class="page-link">1</span> {% endcomment %}
-                              </li>
-                              <li class="page-item"><a class="page-link" href="?page= {{page}}">{{page}}</a></li>
-                              {% endfor %}
-                            </ul>
-                          </nav>
-                        </center>
-                    </div>
-                               
-                <!-- paginaton split end -->
+                    {% include 'ecommerce/partials/_pagination.html' %}
 
 
 
