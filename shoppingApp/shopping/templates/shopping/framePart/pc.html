@@ -5,7 +5,8 @@
 <div class="row mb-2">
     <div class="col-sm-4 ">
 
-        <img src="{% static 'shopping/img/pc.png' %}" alt="Ressim Bulunamadı" class="pcImage img-responsive">
+        <img src={% for tane in product %} {{ tane.imageLink }} {{ break }} {% endfor %} alt="Ressim Bulunamadı"
+            class="pcImage img-responsive">
 
     </div>
 
@@ -15,10 +16,20 @@
         <div class="row">
 
             <h5>
-                <a href="{% url 'productDetails' product.id %}" class="link-dark">
+                {% for tane in product %}
+                {% if tane.site == "Teknosa" %}
+                <a href="{% url 'productDetails' tane.id %}" class="link-dark">
+                {{ break }}
+                {% endif %}
+                {% endfor %}
                     <!-- gidecegi yolu verdik ayriyetten parametre alıyor onu 3. olarak ekliyoruz -->
                     <!-- Dinamik veriyi yazmak icin de ic ice koseli parantezs icersinde yazıyoruz -->
-                    {{ product.title }}
+                    {% for tane in product %}
+                        {% if tane.site == "Teknosa" %}
+                        {{ tane.prodTitle }}
+                        {% endif %}
+                    
+                    {% endfor %}
                 </a>
             </h5>
 
@@ -28,110 +39,53 @@
 
         <div class="row">
 
-            <!-- para falan yazılan yer -->
-            <div class="col-sm ">
-                <p class="fw-bold text-center">{{ product.price }}</p>
 
-                <div class="row">
-                    <div class="col-sm-8 ">
-
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-
-                    </div>
-
-                    <div class="col-sm-4">
-                        <p class="fw-bold">{{ product.rating }}</p>
-                    </div>
-
-
-                </div>
-            </div>
-
-
+            {% for tane in product %}
 
             <!-- para falan yazılan yer -->
             <div class="col-sm ">
-                <p class="fw-bold text-center">{{ product.price }}</p>
 
                 <div class="row">
-                    <div class="col-sm-8 ">
-
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-                        <i class="fa fa-star starColor" aria-hidden="true"></i>
-
-                    </div>
-
-                    <div class="col-sm-4 ">
-                        <p class="fw-bold ">{{ product.rating }}</p>
-
-                    </div>
-
-
-
+                <p class="fw-bold text-center">{{ tane.fiyat }}</p>
                 </div>
-            </div>
-
-            <!-- para falan yazılan yer -->
-            <div class="col-sm ">
-                <p class="fw-bold text-center">{{ product.price }}</p>
 
                 <div class="row">
-                    <div class="col-sm-8 ">
-
+                    <div class="col-sm ">
+                        <center>
                         <i class="fa fa-star starColor" aria-hidden="true"></i>
                         <i class="fa fa-star starColor" aria-hidden="true"></i>
                         <i class="fa fa-star starColor" aria-hidden="true"></i>
                         <i class="fa fa-star starColor" aria-hidden="true"></i>
-
+                        </center>
                     </div>
-
-                    <div class="col-sm-4 ">
-                        <p class="fw-bold ">{{ product.rating }}</p>
-                    </div>
-
                 </div>
+
+                <div class="row">
+                    <p class="fw-bold text-center">{{ tane.puani }}</p>
+                </div>
+      
             </div>
+
+            {% endfor %}
 
         </div>
 
         <hr>
 
+
+
         <div class="row">
-
+            {% for tane in product %}
             <div class="col-sm ">
-                <a href="#">
+                <a href={{ tane.prodLink }}>
                     <center>
                         <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
                     </center>
                 </a>
             </div>
-
-            <div class="col-sm ">
-
-                <a href="#">
-                    <center>
-                        <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
-                    </center>
-                </a>
-
-            </div>
-
-            <div class="col-sm ">
-
-                <a href="#">
-                    <center>
-                        <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
-                    </center>
-                </a>
-
-            </div>
-
+            {% endfor %}
         </div>
+
 
     </div>
 

@@ -5,172 +5,68 @@
 
 
 
-<!-- main start -->
-<main>
+ <!-- main start -->
+ <main>
     <div class="mt-4 mx-3">
         <div class="row">
 
             <!-- products start -->
 
-            <div class="col-sm-4 ">
-
-                <img src="{% static 'shopping/img/pc.png' %}" alt="Ressim Bulunamadı" class="pcImage img-responsive">
-
+            <div class="row ">
+                <div class="container">
+                    <center>
+                    <img src={{ product.imageLink }} alt="Ressim Bulunamadı" class="pcImage img-responsive" style="width: 25%; ">
+                    </center>
+                </div>
             </div>
 
 
-            <div class="col-sm-8 ">
-
-                <div class="row">
-
-                    <h5>{{ product.title }}</h5>
-
-                </div>
-
-                <hr>
-
-                <div class="row">
-
-                    <!-- para falan yazılan yer -->
-                    <div class="col-sm ">
-                        <p class="fw-bold text-center">{{ product.price }}</p>
-
-                        <div class="row">
-                            <div class="col-sm-8 ">
-
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-
-                            </div>
-
-                            <div class="col-sm-4">
-                                <p class="fw-bold">{{ product.rating }}</p>
-                            </div>
-
-
-                        </div>
-                    </div>
 
 
 
-                    <!-- para falan yazılan yer -->
-                    <div class="col-sm ">
-                        <p class="fw-bold text-center">{{ product.price }}</p>
-
-                        <div class="row">
-                            <div class="col-sm-8 ">
-
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-
-                            </div>
-
-                            <div class="col-sm-4 ">
-                                <p class="fw-bold ">{{ product.rating }}</p>
-
-                            </div>
-
-
-
-                        </div>
-                    </div>
-
-                    <!-- para falan yazılan yer -->
-                    <div class="col-sm ">
-                        <p class="fw-bold text-center">{{ product.price }}</p>
-
-                        <div class="row">
-                            <div class="col-sm-8 ">
-
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-                                <i class="fa fa-star starColor" aria-hidden="true"></i>
-
-                            </div>
-
-                            <div class="col-sm-4 ">
-                                <p class="fw-bold ">{{ product.rating }}</p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <div class="row">
-
-                    <div class="col-sm ">
-                        <a href="#">
-                            <center>
-                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
-                            </center>
-                        </a>
-                    </div>
-
-                    <div class="col-sm ">
-
-                        <a href="#">
-                            <center>
-                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
-                            </center>
-                        </a>
-
-                    </div>
-
-                    <div class="col-sm ">
-
-                        <a href="#">
-                            <center>
-                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
-                            </center>
-                        </a>
-
-                    </div>
-
-                </div>
-
+            <div class="row">
+                <center>
+                <h5>{{ product.prodTitle }}</h5>
+                </center>
             </div>
+
+            <hr>
+
+
 
             <!-- product end -->
 
         </div>
 
-        <h1 class="display-6 mx-3   ">Ürün Özellikleri</h1>
+        <h1 class="display-6 mx-3 my-3   ">Ürün Özellikleri</h1>
 
-        <table>
+        <table class="my-3">
 
             <div class="row  mx-3 mb-2">
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            Model
+                            Marka
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            Asus
+                            {{ product.marka }}
                         </div>
                     </div>
                     <hr class="sCol">
                 </div>
-                
+
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            İşlemci
+                            İşlemci Tipi
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            i7
+                            {{ product.islemciTipi }}
                         </div>
                     </div>
                     <hr class="sCol">
                 </div>
-                
+
             </div>
 
             <div class="row  mx-3 mb-2">
@@ -180,7 +76,7 @@
                             Ram
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            16GB
+                            {{ product.ram }}
                         </div>
                     </div>
                     <hr class="sCol">
@@ -189,10 +85,10 @@
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            İşlemci Neli
+                            İşlemci Nesli
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            11
+                            {{ product.islemciNesli }}
                         </div>
                     </div>
                     <hr class="sCol">
@@ -203,10 +99,10 @@
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            Ekran
+                            Ekran Boyutu
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            17.5
+                            {{ product.ekranBoyu }}
                         </div>
                     </div>
                     <hr class="sCol">
@@ -215,10 +111,10 @@
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            Kapasite
+                            Disk Boyutu
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            500GB
+                            {{ product.diskBoyutu }}
                         </div>
                     </div>
                     <hr class="sCol">
@@ -229,10 +125,10 @@
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            Model
+                            Model Adı
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            Abra
+                            {{ product.modelAdi }}
                         </div>
                     </div>
                     <hr class="sCol">
@@ -241,16 +137,42 @@
                 <div class="col-sm   mx-3">
                     <div class="row">
                         <div class="col-sm">
-                            Model No
+                            Model Numarası
                         </div>
                         <div class="col-sm text-end fw-bold">
-                            5454
+                            {{ product.modelNo }}
                         </div>
                     </div>
                     <hr class="sCol">
                 </div>
             </div>
-           
+
+            <div class="row  mx-3 mb-2">
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            İşletim Sistemi
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{ product.isletimSistemi }}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+
+                <div class="col-sm   mx-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            Disk Türü
+                        </div>
+                        <div class="col-sm text-end fw-bold">
+                            {{ product.diskTuru }}
+                        </div>
+                    </div>
+                    <hr class="sCol">
+                </div>
+            </div>
+
         </table>
 
 </main>
