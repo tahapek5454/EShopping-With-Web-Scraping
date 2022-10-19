@@ -1,40 +1,97 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Products
+import threading
 # tablodaki verileri cekip canlıya atmak icin
 
 # Create your views here.
 # burada beliritilen linklerde neler gozukecegini soyleriz
 
 
+
+
+
+class GetDatasWithThread:
+
+    # teknosaAll=[]
+    # trendYolAll=[]
+    # n11All=[]
+    # cicekSepetiAll=[]
+    # hepsiBuradaAll=[]
+
+    def __init__(self) -> None:
+        pass
+
+    def getTeknosaAll(self):
+        print('Teknosa cekerim')
+        self.teknosaAll = Products.objects.filter(site="Teknosa")
+
+    def getTrendYolAll(self):
+        print('Trendyol cekerim')
+        self.trendYolAll = Products.objects.filter(site="Trendyol")
+
+    def getN11All(self):
+        print('N11 cekerim')
+        self.n11All = Products.objects.filter(site="n11")
+
+    def getCicekSepetiAll(self):
+        print('Cicek cekerim')
+        self.cicekSepetiAll = Products.objects.filter(site="ÇiçekSepeti")
+       
+    def getHepsiBuradaAll(self):
+        print('Hepsi cekerim')
+        self.hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
+
+
+
 def home(request):
 
-    teknosaAll = Products.objects.filter(site="Teknosa")
-    trendYolAll = Products.objects.filter(site="Trendyol")
-    n11All = Products.objects.filter(site="n11")
-    cicekSepetiAll = Products.objects.filter(site="ÇiçekSepeti")
-    hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
+    gdwt = GetDatasWithThread()
 
-    print("Teknosa  "+ str(len(teknosaAll)))
-    print("Trend Yol    " + str(len(trendYolAll)))
-    print("N11  " + str(len(n11All)))
-    print("Cicek Sepeti     "+ str(len(cicekSepetiAll)))
-    print("Hepsi Burda  " + str(len(hepsiBuradaAll)))
+    teknosaAllThread = threading.Thread(target=gdwt.getTeknosaAll)
+    trendYolAllThread = threading.Thread(target=gdwt.getTrendYolAll)
+    n11AllThread = threading.Thread(target=gdwt.getN11All)
+    cicekSepetiAllThread = threading.Thread(target=gdwt.getCicekSepetiAll)
+    hepsiBuradaAllThread = threading.Thread(target=gdwt.getHepsiBuradaAll)
+
+    # teknosaAll = Products.objects.filter(site="Teknosa")
+    # trendYolAll = Products.objects.filter(site="Trendyol")
+    # n11All = Products.objects.filter(site="n11")
+    # cicekSepetiAll = Products.objects.filter(site="ÇiçekSepeti")
+    # hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
+
+    teknosaAllThread.start()
+    trendYolAllThread.start()
+    n11AllThread.start()
+    cicekSepetiAllThread.start()
+    hepsiBuradaAllThread.start()
+
+    teknosaAllThread.join()
+    trendYolAllThread.join()
+    n11AllThread.join()
+    cicekSepetiAllThread.join()
+    hepsiBuradaAllThread.join()
+
+    print("Teknosa  "+ str(len(gdwt.teknosaAll)))
+    print("Trend Yol    " + str(len(gdwt.trendYolAll)))
+    print("N11  " + str(len(gdwt.n11All)))
+    print("Cicek Sepeti     "+ str(len(gdwt.cicekSepetiAll)))
+    print("Hepsi Burda  " + str(len(gdwt.hepsiBuradaAll)))
     
     
     allProducts = []
 
-    for i in teknosaAll:
+    for i in gdwt.teknosaAll:
 
         equalsProduct = []
         equalsProduct.append(i)
 
-        for j in trendYolAll:
+        for j in gdwt.trendYolAll:
             if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
                 equalsProduct.append(j)
                 break
         
-        for j in n11All:
+        for j in gdwt.n11All:
 
             # if j.modelNo!="Yok" and j.modelNo!="Belirtilmemiş" and j.modelNo!="" :
             #     if j.modelNo == i.modelNo:
@@ -45,12 +102,12 @@ def home(request):
                 equalsProduct.append(j)
                 break
         
-        for j in cicekSepetiAll:
+        for j in gdwt.cicekSepetiAll:
             if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
                 equalsProduct.append(j)
                 break
         
-        for j in hepsiBuradaAll:
+        for j in gdwt.hepsiBuradaAll:
             if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
                 equalsProduct.append(j)
                 break
@@ -70,10 +127,10 @@ def home(request):
 
     print('Eslesen verilerin toplam sayısı ' + str(len(allProducts)))
 
-    for a in allProducts:
-        for b in a:
-            print(b.site)
-        break
+    # for a in allProducts:
+    #     for b in a:
+    #         print(b.site)
+    #     break
     
     dynamicVar = {
         'products': allProducts
