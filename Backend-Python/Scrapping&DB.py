@@ -636,7 +636,6 @@ class WebScrapping:
     def ciceksepeti(self):
         product_links = []
         product_prices = []
-        product_disc_types = []
         product_image_links=[]
         product_titles=[]
         index = 0
@@ -665,103 +664,37 @@ class WebScrapping:
                     prod_title=item.find('p',{'class':'products__item-title'}).text
                     product_titles.append(prod_title)
 
-        for url in product_links:
-            response2 = requests.get(url)
-            soup2=BeautifulSoup(response2.content,'html.parser')
-            marka3=soup2.find('h1',{'class':'product__info__title'}).find('span',{'class':'js-product-title'}).text
-            if(marka3.find('SSD')!=-1):
-                product_disc_types.append('SSD')
-            elif(marka3.find('HDD')!=-1):
-                product_disc_types.append(('HDD'))
-            else:
-                product_disc_types.append(('Belirtilmemiş'))
-            table=soup2.find_all('div',{'class':'product__specifications__table-row'})
-            islemcinesli=""
-            kapasite=""
-            for feature in table:
-                x=feature.find('div',{'class':'product__specifications__table-cell'}).text
-                if(x=='Renk'):
-                    renk=feature.find_all('div',{'class':'product__specifications__table-cell'})[1].text.strip()
-                elif(x=='Ekran Boyutu'):
-                    ekran_boyutu = feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-                elif (x == 'Kapasite'):
-                    kapasite = feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-                elif (x == 'Ram (Sistem Belleği)'):
-                    ram = feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-                elif (x == 'İşlemci Tipi'):
-                    islemci_tipi = feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-                elif (x == 'İşlemci Çekirdek Sayısı'):
-                    islemci_cekirdek_sayisi = feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-                elif(x=='İşletim Sistemi'):
-                    isletimsistemi= feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-                elif(x=='İşlemci Nesli'):
-                    islemcinesli= feature.find_all('div', {'class': 'product__specifications__table-cell'})[1].text.strip()
-            if(islemcinesli==""):
-                nesil=soup2.find('div',{'class':'product__description-text--left'}).find('div',{'class':'product__recipe-body'}).find('div',{'class':'product__description-text'}).find('div',{'class':'js-clear-inline-styles'}).find_all('tr')
-                for x in nesil:
-                    try:
-                        if(x.find('td').text=='İşlemci' or x.find('td').text=='İşlemci Nesli'):
-                            islemcinesli=x.find('tr')
-                    except:
-                            islemcinesli='Belirtilmemiş'
-            if(kapasite=="" or kapasite=="Yok"):
-                try:
-                    nesil = soup2.find('div', {'class': 'product__description-text--left'}).find('div', { 'class': 'product__recipe-body'}).find('div', {'class': 'product__description-text'}).find('div', {'class': 'js-clear-inline-styles'}).find_all('tr')
-                    for x in nesil:
-                        try:
-                            if(x.find('td').text=='SSD Kapasitesi' or x.find('td').text=='Kapasite'):
-                                kapasite=x.find('tr')
-                            else:
-                                kapasite='Belirtilmemiş'
-                        except:
-                            kapasite='Belirtilmemiş'
-                except:
-                    kapasite='Belirtilmemiş'
-            if(kapasite=='Yok'):
-                kapasite='Belirtilmemiş'
-            fiyat=product_prices[index]
-            fiyat=self.shapeFiyat(fiyat)
-            disk_tipi=product_disc_types[index]
-            imageLink=product_image_links[index]
-            prodTitle=product_titles[index]
-            index=index+1
-            model_no="Belirtilmemiş"
-            model_adi=prodTitle.split(" ")[1]
-            title_split=prodTitle.split(' ')
-            marka=title_split[0]
-            model_no=self.cs_modalnoshaper(prodTitle)
-            site='Çiçek Sepeti'
-            puani='0'
-            
-            isletimsistemi=self.shapeIsletimSistemi(isletimsistemi)
-            ekran_boyutu=self.shapeEkranBoyutu(ekran_boyutu)
-            islemcinesli=self.csNesilShaper(islemcinesli)
-            productDict = {
-                        'marka':marka,
-                        'modelAdi':model_adi,
-                        'modelNo':model_no,
-                        'isletimSistemi':isletimsistemi,
-                        'islemciTipi':islemci_tipi,
-                        'islemciNesli':islemcinesli,
-                        'ram':ram,
-                        'diskBoyutu':kapasite,
-                        'diskTuru':disk_tipi,
-                        'ekranBoyu':ekran_boyutu,
-                        'puani':puani,
-                        'fiyat':fiyat,
-                        'prodLink':url,
-                        'imageLink':imageLink,
-                        'prodTitle':prodTitle,
-                        'site':site,
-                        'id':self.product_id,
-                    }
-            self.product_id=self.product_id+1
-            self.pcCicekSepetiList.append(productDict)
-
-
-
-
-
+                    fiyat=product_prices[index]
+                    fiyat=self.shapeFiyat(fiyat)
+                    prodTitle=product_titles[index]
+                    index=index+1
+                    model_adi=prodTitle.split(" ")[1]
+                    title_split=prodTitle.split(' ')
+                    marka=title_split[0]
+                    model_no=self.cs_modalnoshaper(prodTitle)
+                    site='ÇiçekSepeti'
+                    puani='0'
+                    productDict = {
+                                'marka':marka,
+                                'modelAdi':"",
+                                'modelNo':"",
+                                'isletimSistemi':"",
+                                'islemciTipi':"",
+                                'islemciNesli':"",
+                                'ram':"",
+                                'diskBoyutu':"",
+                                'diskTuru':"",
+                                'ekranBoyu':"",
+                                'puani':puani,
+                                'fiyat':fiyat,
+                                'prodLink':product_url,
+                                'imageLink':prod_image_link,
+                                'prodTitle':prodTitle,
+                                'site':site,
+                                'id':self.product_id,
+                            }
+                    self.product_id=self.product_id+1
+                    self.pcCicekSepetiList.append(productDict)
 
     def n11NesilShaper(self,item):
         if item == None:
