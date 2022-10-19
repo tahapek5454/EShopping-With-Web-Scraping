@@ -179,28 +179,23 @@
 
                 <!-- pagination split -->
                                        
-                    <div class="container">
-
+                    
+                        <center>
                         <nav aria-label="...">
-                            <ul class="pagination" style="margin-left:330px;">
-                                <li class="page-item disabled">
-                                    <a class="page-link">Previous</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active" aria-current="page">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
+                            <ul class="pagination pagination-lg">
+                                {% for page in paginator.page_range%}
+                              {% comment %} <li class="page-item active" aria-current="page">
+                                <span class="page-link">1</span> {% endcomment %}
+                              </li>
+                              <li class="page-item"><a class="page-link" href="?page= {{page}}">{{page}}</a></li>
+                              {% endfor %}
                             </ul>
-                        </nav>
-
+                          </nav>
+                        </center>
                     </div>
                                
                 <!-- paginaton split end -->
-            </div>
+
 
 
 {% endblock%}
