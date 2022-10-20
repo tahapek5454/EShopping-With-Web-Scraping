@@ -138,16 +138,19 @@ def home(request):
                     isletimSistemi.add(item.isletimSistemi.capitalize())
                 
                 if item.islemciTipi != "":
-                    islemciTipi.add(item.islemciTipi.capitalize())
+                    islemciTipi.add(item.islemciTipi.title())
 
                 if item.islemciNesli != "":
-                    islemciNesli.add(item.islemciNesli.capitalize())
+                    if(item.islemciNesli !='Yok'):
+                        islemciNesli.add(int(item.islemciNesli))
+                    else:
+                        islemciNesli.add(0)
                 
                 if item.ram != "":
-                    ram.add(item.ram.capitalize())
+                    ram.add(int(item.ram.split(' ')[0]))
                 
                 if item.diskTuru != "":
-                    diskTuru.add(item.diskTuru.capitalize())
+                    diskTuru.add(item.diskTuru.title())
                 
                 if item.ekranBoyu != "":
                     ekranBoyu.add(item.ekranBoyu.capitalize())
@@ -155,6 +158,13 @@ def home(request):
                 if item.diskBoyutu != "":
                     diskBoyutu.add(item.diskBoyutu.capitalize())
                 break
+    
+    marka=sorted(marka)
+    islemciNesli=sorted(islemciNesli)
+    islemciTipi=sorted(islemciTipi)
+    ekranBoyu=sorted(ekranBoyu)
+    diskBoyutu=sorted(diskBoyutu)
+    ram=sorted(ram)
     
     
     print(type(Products.objects.filter(site="Teknosa")))

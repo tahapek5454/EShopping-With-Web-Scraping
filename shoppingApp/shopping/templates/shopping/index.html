@@ -88,10 +88,17 @@
                             </li>
 
                             {% for islemciNesli in islemciNeslis %}
+                            {% if islemciNesli == 0 %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                Yok
+                            </li>
+                            {% else %}
                             <li class="list-group-item">
                                 <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
                                 {{ islemciNesli }}
                             </li>
+                            {% endif %}
                             {% endfor %}
 
                             
@@ -107,7 +114,7 @@
                             {% for ram in rams %}
                             <li class="list-group-item">
                                 <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                                {{ ram }}
+                                {{ram}} GB
                             </li>
                             {% endfor %}
 
