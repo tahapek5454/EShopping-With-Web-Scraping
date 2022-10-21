@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Products
 import threading
+import pymongo
 # tablodaki verileri cekip canlıya atmak icin
 
 # Create your views here.
@@ -13,41 +14,106 @@ import threading
 
 class GetDatasWithThread:
 
-    # teknosaAll=[]
-    # trendYolAll=[]
-    # n11All=[]
-    # cicekSepetiAll=[]
-    # hepsiBuradaAll=[]
+    teknosaAll=[]
+    trendYolAll=[]
+    n11All=[]
+    cicekSepetiAll=[]
+    hepsiBuradaAll=[]
 
     def __init__(self) -> None:
         pass
 
     def getTeknosaAll(self):
-        print('Teknosa cekerim')
+        #print('Teknosa cekerim')
         self.teknosaAll = Products.objects.filter(site="Teknosa")
 
     def getTrendYolAll(self):
-        print('Trendyol cekerim')
+        #print('Trendyol cekerim')
         self.trendYolAll = Products.objects.filter(site="Trendyol")
 
     def getN11All(self):
-        print('N11 cekerim')
+        #print('N11 cekerim')
         self.n11All = Products.objects.filter(site="n11")
 
     def getCicekSepetiAll(self):
-        print('Cicek cekerim')
+        #print('Cicek cekerim')
         self.cicekSepetiAll = Products.objects.filter(site="ÇiçekSepeti")
        
     def getHepsiBuradaAll(self):
-        print('Hepsi cekerim')
+        #print('Hepsi cekerim')
         self.hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
 
 
 def home(request):
-
     gdwt = GetDatasWithThread()
+    flag = False
 
-    teknosaAllThread = threading.Thread(target=gdwt.getTeknosaAll)
+    if request.method == "POST":
+        print("Posta girdim haberin olsun")
+        selectedMarka = request.POST.getlist('marka')
+        selectedIsletimSistemi = request.POST.getlist('isletimSistemi')
+        selectedIslemciTipi = request.POST.getlist('islemciTipi')
+        selectedIslemciNesli = request.POST.getlist('islemciNesli')
+        selectedRam = request.POST.getlist('ram')
+        selectedDiskTuru = request.POST.getlist('diskTuru')
+        selectedEkranBoyu = request.POST.getlist('ekranBoyu')
+        selectedDiskBoyutu = request.POST.getlist('diskBoyutu')
+
+        base = {}
+        """
+        c ={}
+        c['marka']={ "$in" : ["Monster", "Asus"]}
+        c['modelAdi'] = {"$in" : ["Abra"]}
+        """
+        if len(selectedMarka) != 0:
+            flag = True
+            base['marka'] = {"$in" : selectedMarka}               
+        if len(selectedIsletimSistemi) != 0:
+            flag = True
+            base['isletimSistemi'] = {"$in" : selectedIsletimSistemi}
+        if len(selectedIslemciTipi) != 0:
+            flag = True
+            base['islemciTipi'] = {"$in" : selectedIslemciTipi}
+        if len(selectedIslemciNesli) != 0:
+            flag = True
+            base['islemciNesli'] = {"$in" : selectedIslemciNesli}
+        if len(selectedRam) != 0:
+            flag = True
+            base['ram'] = {"$in" : selectedRam}
+        if len(selectedDiskTuru) != 0:
+            flag = True
+            base['diskTuru'] = {"$in" : selectedDiskTuru}
+        if len(selectedEkranBoyu) != 0:
+            flag = True
+            base['ekranBoyu'] = {"$in" : selectedEkranBoyu}
+        if len(selectedDiskBoyutu) != 0:
+            flag = True
+            base['diskBoyutu'] = {"$in" : selectedDiskBoyutu}
+        
+        base['site']={"$in" : ["Teknosa"]}
+
+        print(base)
+
+        if flag:
+            
+            # baglanma islemi
+            myClient = pymongo.MongoClient('mongodb://abvag:abvag@localhost:27017')
+
+            # database e gimre
+            mydb = myClient['WebScraping']
+
+
+            myCollection = mydb['shopping_products']
+
+            gdwt.teknosaAll = myCollection.find(base)
+
+            
+    
+    
+
+    
+    if flag==False:
+        teknosaAllThread = threading.Thread(target=gdwt.getTeknosaAll)
     trendYolAllThread = threading.Thread(target=gdwt.getTrendYolAll)
     n11AllThread = threading.Thread(target=gdwt.getN11All)
     cicekSepetiAllThread = threading.Thread(target=gdwt.getCicekSepetiAll)
@@ -59,30 +125,35 @@ def home(request):
     # cicekSepetiAll = Products.objects.filter(site="ÇiçekSepeti")
     # hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
 
-    teknosaAllThread.start()
+    if flag==False:
+        teknosaAllThread.start()
+
     trendYolAllThread.start()
     n11AllThread.start()
     cicekSepetiAllThread.start()
     hepsiBuradaAllThread.start()
 
-    teknosaAllThread.join()
+    if flag==False:
+        teknosaAllThread.join()
+
     trendYolAllThread.join()
     n11AllThread.join()
     cicekSepetiAllThread.join()
     hepsiBuradaAllThread.join()
 
 
-    print("Teknosa  "+ str(len(gdwt.teknosaAll)))
-    print("Trend Yol    " + str(len(gdwt.trendYolAll)))
-    print("N11  " + str(len(gdwt.n11All)))
-    print("Cicek Sepeti     "+ str(len(gdwt.cicekSepetiAll)))
-    print("Hepsi Burda  " + str(len(gdwt.hepsiBuradaAll)))
+    # print("Teknosa  "+ str(len(gdwt.teknosaAll)))
+    # print("Trend Yol    " + str(len(gdwt.trendYolAll)))
+    # print("N11  " + str(len(gdwt.n11All)))
+    # print("Cicek Sepeti     "+ str(len(gdwt.cicekSepetiAll)))
+    # print("Hepsi Burda  " + str(len(gdwt.hepsiBuradaAll)))
     
     
+
     allProducts = []
 
     for i in gdwt.teknosaAll:
-
+        print(i)
         equalsProduct = []
         equalsProduct.append(i)
 
@@ -167,10 +238,10 @@ def home(request):
     ram=sorted(ram)
     
     
-    print(type(Products.objects.filter(site="Teknosa")))
-    print("Set Marka uzunlugu "+str(len(marka)))
-    print("Sets Marka")
-    print(marka)
+    # print(type(Products.objects.filter(site="Teknosa")))
+    # print("Set Marka uzunlugu "+str(len(marka)))
+    # print("Sets Marka")
+    # print(marka)
 
             
 
@@ -202,6 +273,7 @@ def home(request):
         'diskBoyutus': diskBoyutu    
     }
     #tum urunleri al dedik
+    
 
     #render bize gelen requeste gore templatelerden dosya arıyor
     #spesifik bir yerden aramasını istedigimizden template altında dosya olusturduk

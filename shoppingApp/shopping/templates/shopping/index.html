@@ -24,8 +24,8 @@
 
 
             <div class="col-sm-3">
-                <form action="">
-
+                <form action="{% url 'home' %}" method="POST">
+                    {% csrf_token %}
                     <div class="row mb-4">
                         <center>
                         <button type="submit" class="btn btn-outline-light" id="uygula"
@@ -41,7 +41,7 @@
 
                             {% for marka in markas %}
                             <li class="list-group-item a">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-1" name="marka" type="checkbox" value={{ marka }} aria-label="...">
                                 {{ marka }}
                             </li>
                             {% endfor %}
@@ -57,7 +57,7 @@
 
                             {% for isletimSistemi in isletimSistemis %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-1" name="isletimSistemi" type="checkbox" value={{ isletimSistemi }} aria-label="...">
                                 {{ isletimSistemi }}
                             </li>
                             {% endfor %}
@@ -73,7 +73,7 @@
                             
                             {% for islemciTipi in islemciTipis %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-1" name="islemciTipi" type="checkbox" value={{ islemciTipi }} aria-label="...">
                                 {{ islemciTipi }}
                             </li>
                             {% endfor %}
@@ -90,13 +90,13 @@
                             {% for islemciNesli in islemciNeslis %}
                             {% if islemciNesli == 0 %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-1" name="islemciNesli" type="checkbox" value="Yok" aria-label="...">
                                 Yok
                             </li>
                             {% else %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                                {{ islemciNesli }}
+                                <input class="form-check-input me-1" name="islemciNesli" type="checkbox" value={{ islemciNesli }} aria-label="...">
+                                {{ islemciNesli }} 
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -113,8 +113,8 @@
                             
                             {% for ram in rams %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                                {{ram}} GB
+                                <input class="form-check-input me-1" name="ram" type="checkbox" value={{ ram }} aria-label="...">
+                                {{ ram }} GB
                             </li>
                             {% endfor %}
 
@@ -130,7 +130,7 @@
                             
                             {% for diskTuru in diskTurus %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-1" name="diskTuru" type="checkbox" value={{ diskTuru }} aria-label="...">
                                 {{ diskTuru }}
                             </li>
                             {% endfor %}
@@ -147,7 +147,7 @@
                             
                             {% for ekranBoyu in ekranBoyus %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-1" name="ekranBoyu" type="checkbox" value={{ ekranBoyu }} aria-label="...">
                                 {{ ekranBoyu }}
                             </li>
                             {% endfor %}
@@ -164,8 +164,8 @@
                             
                             {% for diskBoyutu in diskBoyutus %}
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                                {{ diskBoyutu }}
+                                <input class="form-check-input me-1" name="diskBoyutu" type="checkbox" value={{ diskBoyutu }} aria-label="...">
+                                {{ diskBoyutu }} 
                             </li>
                             {% endfor %}
 
