@@ -189,22 +189,28 @@
 
                     <div class="col-sm-4 border rounded-pill ">
                         <center>
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            <a href="{% url 'descsortprod' %}">
+                            <i class="fa fa-usd" aria-hidden="true" style="color:green"></i>
+                            <i class="fa fa-arrow-up" aria-hidden="true" style="color:green"></i>
                             En Yüksek Fiyat
+                            </a>
                         </center>
                     </div>
                     <div class="col-sm-4 border rounded-pill">
                         <center>
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            <a href="{% url 'ascsortprod' %}">
+                            <i class="fa fa-usd" aria-hidden="true" style="color:green"></i>
+                            <i class="fa fa-arrow-down" aria-hidden="true" style="color:red"></i>
                             En Düşük Fiyat
+                        </a>
                         </center>
                     </div>
                     <div class="col-sm-4 border rounded-pill">
                         <center>
-                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <a href="{% url 'descstarprod' %}">
+                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
                             En Yüksek Puan
+                            </a>
                         </center>
                     </div>
 

@@ -58,16 +58,20 @@
 /* linkleri  guzellestirmek */
 a:link {
     text-decoration: none;
+    color: black;
   }
   
   a:visited {
     text-decoration: none;
+    color: black;
   }
   
   a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: black;
   }
   
   a:active {
-    text-decoration: underline;
+    text-decoration: none;
+    color: black;
   }
