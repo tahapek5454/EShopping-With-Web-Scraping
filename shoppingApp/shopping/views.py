@@ -5,6 +5,7 @@ import pymongo
 from pymongo import MongoClient
 import threading
 import random
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # tablodaki verileri cekip canlıya atmak icin
 
 # Create your views here.
@@ -257,9 +258,14 @@ def home(request):
     #     for b in a:
     #         print(b.site)
     #     break
+    posts=allProducts
+    page = request.GET.get('page')
+    num_of_item= 20
+    paginator= Paginator(posts,num_of_item)
+    PostsFinal=paginator.get_page(page)
     
     dynamicVar = {
-        'products': allProducts,
+        'products': PostsFinal,
         'markas':marka,
         'isletimSistemis' : isletimSistemi,
         'islemciTipis' : islemciTipi,
@@ -458,9 +464,14 @@ def DescSortProd(request):
     #     for b in a:
     #         print(b.site)
     #     break
+    posts=allProducts
+    page = request.GET.get('page')
+    num_of_item= 20
+    paginator= Paginator(posts,num_of_item)
+    PostsFinal=paginator.get_page(page)
     
     dynamicVar = {
-        'products': allProducts,
+        'products': PostsFinal,
         'markas':marka,
         'isletimSistemis' : isletimSistemi,
         'islemciTipis' : islemciTipi,
@@ -624,8 +635,14 @@ def DescStarProd(request):
     #         print(b.site)
     #     break
     
+    posts=allProducts
+    page = request.GET.get('page')
+    num_of_item= 20
+    paginator= Paginator(posts,num_of_item)
+    PostsFinal=paginator.get_page(page)
+    
     dynamicVar = {
-        'products': allProducts,
+        'products': PostsFinal,
         'markas':marka,
         'isletimSistemis' : isletimSistemi,
         'islemciTipis' : islemciTipi,
@@ -788,9 +805,13 @@ def AscSortProd(request):
     #     for b in a:
     #         print(b.site)
     #     break
-    
+    posts=allProducts
+    page = request.GET.get('page')
+    num_of_item= 20
+    paginator= Paginator(posts,num_of_item)
+    PostsFinal=paginator.get_page(page)
     dynamicVar = {
-        'products': allProducts,
+        'products': PostsFinal,
         'markas':marka,
         'isletimSistemis' : isletimSistemi,
         'islemciTipis' : islemciTipi,
