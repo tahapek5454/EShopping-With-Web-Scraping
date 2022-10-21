@@ -45,6 +45,27 @@ class Products(models.Model):
     imageLink = models.CharField(max_length = 300)
     prodTitle = models.CharField(max_length = 300)
     site = models.CharField(max_length = 50)
+    matchNo=models.IntegerField(default=None)
+
+class MatchProducts(models.Model):
+    # burası bizim tablomuzun oldugu yer
+    marka = models.CharField(max_length = 50)
+    modelAdi = models.CharField(max_length = 50)
+    modelNo = models.CharField(max_length = 50)
+    isletimSistemi = models.CharField(max_length = 50)
+    islemciTipi = models.CharField(max_length = 50)
+    islemciNesli = models.CharField(max_length = 50)
+    ram = models.CharField(max_length = 50)
+    diskBoyutu = models.CharField(max_length = 50)
+    diskTuru = models.CharField(max_length = 50)
+    ekranBoyu = models.CharField(max_length = 50)
+    puani = models.CharField(max_length = 5)
+    fiyat = models.DecimalField(max_digits=8, decimal_places=2)
+    prodLink = models.CharField(max_length = 300)
+    imageLink = models.CharField(max_length = 300)
+    prodTitle = models.CharField(max_length = 300)
+    site = models.CharField(max_length = 50)
+    matchNo=models.IntegerField()
 
 
     

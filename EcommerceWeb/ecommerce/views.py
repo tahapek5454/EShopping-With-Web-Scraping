@@ -2,8 +2,12 @@ import re
 from django.shortcuts import render
 from .models import Prods
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.cache import cache
+
 
 def homepage(request):
+
+    
     posts=Prods.objects.all()
     page = request.GET.get('page')
     num_of_item= 20
