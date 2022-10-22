@@ -79,7 +79,17 @@
             <div class="col-sm ">
                 <a href={{ tane.prodLink }}>
                     <center>
+                        {% if tane.site == "n11" %}
                         <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                        {% elif tane.site == "Teknosa" %}
+                        <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                        {% elif tane.site == "ÇiçekSepeti" %}
+                        <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                        {% elif tane.site == "Trendyol" %}
+                        <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                        {% elif tane.site == "Hepsiburada" %}
+                        <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                        {% endif %}
                     </center>
                 </a>
             </div>

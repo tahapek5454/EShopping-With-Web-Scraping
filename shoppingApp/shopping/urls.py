@@ -10,4 +10,5 @@ urlpatterns = [
     path("ascsort",views.AscSortProd,name="ascsortprod"),
     path("descsort",views.DescSortProd,name="descsortprod"),
     path("descstarsort",views.DescStarProd,name="descstarprod"),
+    path("category", views.filterByCategory, name='filterByCategory')
 ]
