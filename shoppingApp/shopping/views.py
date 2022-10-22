@@ -224,13 +224,10 @@ def home(request):
     diskBoyutu = set()
 
 
-    # SORUN BURDA VERİTABANIDAN BAGIMSIZ DEGİSTİRME YAPTIGIMIZDAZ
-    # SORGU ATTIGIMDA FİLTRELEMEK İCİN ESLESMİYOR VE BOSA CİKİYOR
+    
 
-    # islemci Tipi sıkıntılı boşlukları name e atamıyor django
-    # işlemci nesli string olamalı
-    # ram string olmalı ve yanında GB yazmalı db de öyle çünkü !
-    # disk boyutu sıkıntılı gb olmalı
+    # islemci Nesli yok u anlamadım
+    # ram sıkıntılı
     
 
     for eslesen in allProducts:
@@ -239,25 +236,30 @@ def home(request):
 
             if item.site == 'Teknosa':
                 if item.marka != "":
-                    print('')
-                    print(item.marka)
-                    print(item.marka.capitalize())
-                    print('')
-                    
-                    marka.add(item.marka.capitalize())
+                    # print('')
+                    # print(item.marka)
+                    # print(item.marka.capitalize())
+                    # print('')
+                    if item.marka == "ASUS":
+                        marka.add(item.marka.capitalize())
+                    elif item.marka == "Hp":
+                        marka.add(item.marka.upper())
+                    else:
+                        marka.add(item.marka)
+
 
                 if item.isletimSistemi !="":
-                    print('')
-                    print(item.isletimSistemi)
-                    print(item.isletimSistemi.capitalize())
-                    print('')
+                    # print('')
+                    # print(item.isletimSistemi)
+                    # print(item.isletimSistemi.capitalize())
+                    # print('')
                     isletimSistemi.add(item.isletimSistemi)
                 
                 if item.islemciTipi != "":
-                    print('')
-                    print(item.islemciTipi)
-                    print(item.islemciTipi.title())
-                    print('')
+                    # print('')
+                    # print(item.islemciTipi)
+                    # print(item.islemciTipi.title())
+                    # print('')
                     islemciTipi.add(item.islemciTipi)
 
                 if item.islemciNesli != "":
@@ -265,29 +267,34 @@ def home(request):
                         islemciNesli.add(int(item.islemciNesli))
                     else:
                         islemciNesli.add(0)
+                    
                 
                 if item.ram != "":
+                    # print('')
+                    # print(item.ram)
+                    # print(item.ram.title())
+                    # print('')
                     ram.add(item.ram)
                 
                 if item.diskTuru != "":
-                    print('')
-                    print(item.diskTuru)
-                    print(item.diskTuru.title())
-                    print('')
+                    # print('')
+                    # print(item.diskTuru)
+                    # print(item.diskTuru.title())
+                    # print('')
                     diskTuru.add(item.diskTuru)
                 
                 if item.ekranBoyu != "":
-                    print('')
-                    print(item.ekranBoyu)
-                    print(item.ekranBoyu.capitalize())
-                    print('')
+                    # print('')
+                    # print(item.ekranBoyu)
+                    # print(item.ekranBoyu.capitalize())
+                    # print('')
                     ekranBoyu.add(item.ekranBoyu)
                 
                 if item.diskBoyutu != "":
-                    print('')
-                    print(item.diskBoyutu)
-                    print(item.diskBoyutu.capitalize())
-                    print('')
+                    # print('')
+                    # print(item.diskBoyutu)
+                    # print(item.diskBoyutu.capitalize())
+                    # print('')
                     diskBoyutu.add(item.diskBoyutu)
                 break
     
@@ -536,26 +543,31 @@ def filterByCategory(request):
 
                     if item['site'] == 'Teknosa':
                         if item['marka'] != "":
-                            print('')
-                            print(item['marka'])
-                            print(item['marka'].capitalize())
-                            print('')
-                            marka.add(item['marka'].capitalize())
+                            # print('')
+                            # print(item['marka'])
+                            # print(item['marka'].capitalize())
+                            # print('')
+                            if item["marka"] == "ASUS":
+                                marka.add(item["marka"].capitalize())
+                            elif item["marka"] == "Hp":
+                                marka.add(item["marka"].upper())
+                            else:
+                                marka.add(item["marka"])
 
                         if item['isletimSistemi'] !="":
-                            print('')
-                            print(item['isletimSistemi'])
-                            print(item['isletimSistemi'].capitalize())
-                            print('')
-                            isletimSistemi.add(item['isletimSistemi'].capitalize())
+                            # print('')
+                            # print(item['isletimSistemi'])
+                            # print(item['isletimSistemi'].capitalize())
+                            # print('')
+                            isletimSistemi.add(item['isletimSistemi'])
                         
                         if item['islemciTipi'] != "":
-                            print('')
-                            print(item['islemciTipi'])
-                            print(item['islemciTipi'].title())
-                            print('')
+                            # print('')
+                            # print(item['islemciTipi'])
+                            # print(item['islemciTipi'].title())
+                            # print('')
                             
-                            islemciTipi.add(item['islemciTipi'].title())
+                            islemciTipi.add(item['islemciTipi'])
 
                         if item['islemciNesli'] != "":
                             if(item['islemciNesli'] !='Yok'):
@@ -564,28 +576,28 @@ def filterByCategory(request):
                                 islemciNesli.add(0)
                         
                         if item['ram'] != "":
-                            ram.add(int(item['ram'].split(' ')[0]))
+                            ram.add(item['ram'])
                         
                         if item['diskTuru'] != "":
-                            print('')
-                            print(item['diskTuru'])
-                            print(item['diskTuru'].title())
-                            print('')
-                            diskTuru.add(item['diskTuru'].title())
+                            # print('')
+                            # print(item['diskTuru'])
+                            # print(item['diskTuru'].title())
+                            # print('')
+                            diskTuru.add(item['diskTuru'])
                         
                         if item['ekranBoyu'] != "":
-                            print('')
-                            print(item['ekranBoyu'])
-                            print(item['ekranBoyu'].capitalize())
-                            print('')
-                            ekranBoyu.add(item['ekranBoyu'].capitalize())
+                            # print('')
+                            # print(item['ekranBoyu'])
+                            # print(item['ekranBoyu'].capitalize())
+                            # print('')
+                            ekranBoyu.add(item['ekranBoyu'])
                         
                         if item['diskBoyutu'] != "":
-                            print('')
-                            print(item['diskBoyutu'])
-                            print(item['diskBoyutu'].capitalize())
-                            print('')
-                            diskBoyutu.add(item['diskBoyutu'].capitalize())
+                            # print('')
+                            # print(item['diskBoyutu'])
+                            # print(item['diskBoyutu'].capitalize())
+                            # print('')
+                            diskBoyutu.add(item['diskBoyutu'])
                         break
             
             marka=sorted(marka)
