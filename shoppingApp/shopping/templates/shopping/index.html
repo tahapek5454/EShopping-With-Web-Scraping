@@ -173,6 +173,23 @@
                         </ul>
                     </div>
 
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Model Adı</p>
+                            </li>
+                            
+                            {% for modelAdi in modelAdis %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="modelAdi" type="checkbox" value="{{ modelAdi }}" aria-label="...">
+                                {{ modelAdi|title }} 
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
                 </form>
 
 

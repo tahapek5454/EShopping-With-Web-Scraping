@@ -16,10 +16,11 @@
     color: white;
 }
 
-#uygula{
+#uygula {
     background-color: orange;
     color: white;
 }
+
 /* checkbutton css */
 .form-check-input:checked {
     background-color: rgb(230, 149, 0);
@@ -59,19 +60,55 @@
 a:link {
     text-decoration: none;
     color: black;
-  }
-  
-  a:visited {
+}
+
+a:visited {
     text-decoration: none;
     color: black;
-  }
-  
-  a:hover {
+}
+
+a:hover {
     text-decoration: none;
     color: black;
-  }
-  
-  a:active {
+}
+
+a:active {
     text-decoration: none;
     color: black;
-  }
+}
+
+/* searchBar */
+.autocomplete {
+    position: relative;
+    display: inline-block;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+    background-color: rgb(230, 149, 0);
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+}

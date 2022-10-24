@@ -49,9 +49,12 @@
                         </li>
                     </ul>
 
-                    <form class="d-flex" id="navbar-form">
-                        <input class="form-control me-2" type="search" placeholder="Ara" aria-label="Ara">
-                        <button class="btn btn-outline-light" id="navbar-form-button" type="submit">Ara</button>
+                    <form class="d-flex" id="navbar-form" action="{% url 'filterWithSearchBar' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="autocomplete">
+                        <input class="form-control me-2" id="myInput" name="searchBar" type="search" placeholder="Ara" aria-label="Ara">
+                        </div>
+                        <button class="btn btn-outline-light ms-2" id="navbar-form-button" type="submit">Ara</button>
                     </form>
                 </div>
             </div>

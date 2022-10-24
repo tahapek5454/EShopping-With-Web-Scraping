@@ -214,7 +214,9 @@ def home(request):
     
 
     # kategorilerin ekranda sıralanmasıyla alakalı
+    # model adini ekledim
     marka = set()
+    modelAdi = set()
     isletimSistemi = set()
     islemciTipi = set()
     islemciNesli = set()
@@ -246,6 +248,10 @@ def home(request):
                         marka.add(item.marka.upper())
                     else:
                         marka.add(item.marka)
+                
+                if item.modelAdi !="":
+                    print(item.modelAdi)
+                    modelAdi.add(item.modelAdi)
 
 
                 if item.isletimSistemi !="":
@@ -298,6 +304,70 @@ def home(request):
                     diskBoyutu.add(item.diskBoyutu)
                 break
     
+
+    # with open('Kategoriler.txt','w', encoding="utf-8") as f:
+
+    #     for item in marka:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in islemciNesli:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in islemciTipi:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in ekranBoyu:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in diskBoyutu:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in ram:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in isletimSistemi:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in diskTuru:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+
+    #     for item in modelAdi:
+    #         f.write('"')
+    #         f.write(str(item))
+    #         f.write('"')
+    #         f.write(',')
+       
+    
+     
+   
+        
+        
+
+
     marka=sorted(marka)
     islemciNesli=sorted(islemciNesli)
     islemciTipi=sorted(islemciTipi)
@@ -343,7 +413,8 @@ def home(request):
         'rams': ram,
         'diskTurus': diskTuru,
         'ekranBoyus': ekranBoyu,
-        'diskBoyutus': diskBoyutu    
+        'diskBoyutus': diskBoyutu,
+        'modelAdis': modelAdi    
     }
     #tum urunleri al dedik
     
@@ -406,6 +477,7 @@ def filterByCategory(request):
         selectedDiskTuru = request.POST.getlist('diskTuru')
         selectedEkranBoyu = request.POST.getlist('ekranBoyu')
         selectedDiskBoyutu = request.POST.getlist('diskBoyutu')
+        selectedModelAdi = request.POST.getlist('modelAdi')
 
         
         """
@@ -437,6 +509,9 @@ def filterByCategory(request):
         if len(selectedDiskBoyutu) != 0:
             flag = True
             base['diskBoyutu'] = {"$in" : selectedDiskBoyutu}
+        if len(selectedModelAdi) != 0:
+            flag = True
+            base['modelAdi'] = {"$in" : selectedModelAdi}
         
         base['site']={"$in" : ["Teknosa"]}
 
@@ -536,6 +611,7 @@ def filterByCategory(request):
             diskTuru = set()
             ekranBoyu = set()
             diskBoyutu = set()
+            modelAdi = set()
 
             for eslesen in allProducts:
 
@@ -598,6 +674,10 @@ def filterByCategory(request):
                             # print(item['diskBoyutu'].capitalize())
                             # print('')
                             diskBoyutu.add(item['diskBoyutu'])
+
+                        if item['modelAdi'] != "":
+                            
+                            modelAdi.add(item['modelAdi'])
                         break
             
             marka=sorted(marka)
@@ -645,7 +725,266 @@ def filterByCategory(request):
                 'rams': ram,
                 'diskTurus': diskTuru,
                 'ekranBoyus': ekranBoyu,
-                'diskBoyutus': diskBoyutu    
+                'diskBoyutus': diskBoyutu,
+                'modelAdis' : modelAdi  
+            }
+            #tum urunleri al dedik
+            
+
+            #render bize gelen requeste gore templatelerden dosya arıyor
+            #spesifik bir yerden aramasını istedigimizden template altında dosya olusturduk
+            # return render(request, "shopping/index.html", dynamicVar) 
+            return render(request, "shopping/index.html", dynamicVar)
+
+            
+
+    else:
+        return redirect('home')
+
+def filterWithSearchBar(request):
+    gdwt = GetDatasWithThread()
+    flag = False
+    base = {}
+    
+    if request.method == "POST":
+       
+        print("Search Bar Postuna girdim haberin olsun")
+        
+        barValue = request.POST["searchBar"]
+        barValue = str(barValue)
+        print("Bardan gelen value = "+barValue)
+
+        
+        """
+        c ={}
+        c['marka']={ "$in" : ["Monster", "Asus"]}
+        c['modelAdi'] = {"$in" : ["Abra"]}
+        """
+        if len(barValue) > 0:
+            flag = True
+        base['site']={"$in" : ["Teknosa"]}
+
+    print(base)
+
+    if flag:
+        
+        
+        # baglanma islemi
+        myClient = pymongo.MongoClient('mongodb://abvag:abvag@localhost:27017')
+
+        # database e gimre
+        mydb = myClient['WebScraping']
+
+
+        myCollection = mydb['shopping_products']
+
+        gdwt.teknosaAll = myCollection.find(base)
+
+        print(gdwt.teknosaAll)
+
+        teknosaa = list(gdwt.teknosaAll)
+        teknosa=[]
+
+        for item in teknosaa:
+            if item['prodTitle'].find(barValue) !=-1:
+                print('Title icinde buldum')
+                teknosa.append(item)
+
+        print("teknosanın uzunlugu "+ str(len(teknosa)))
+        print(teknosa)
+        if len(teknosa) == 0:
+            # filterdan veri gelmediyse
+            print('Home gitmeliyim')
+            return redirect('home')
+
+        else:
+
+            # start scrapping
+            trendYolAllThread = threading.Thread(target=gdwt.getTrendYolAll)
+            n11AllThread = threading.Thread(target=gdwt.getN11All)
+            cicekSepetiAllThread = threading.Thread(target=gdwt.getCicekSepetiAll)
+            hepsiBuradaAllThread = threading.Thread(target=gdwt.getHepsiBuradaAll)
+            
+            trendYolAllThread.start()
+            n11AllThread.start()
+            cicekSepetiAllThread.start()
+            hepsiBuradaAllThread.start()
+
+                        
+            trendYolAllThread.join()
+            n11AllThread.join()
+            cicekSepetiAllThread.join()
+            hepsiBuradaAllThread.join()
+
+
+            allProducts = []
+
+
+            # match data
+            for i in teknosa:
+                # print(i)
+                equalsProduct = []
+                equalsProduct.append(i)
+
+                for j in gdwt.trendYolAll:
+                    if j.prodTitle.lower().find(i['modelNo'].lower()) !=-1:
+                        equalsProduct.append(j)
+                        break
+                
+                for j in gdwt.n11All:
+
+                    # if j.modelNo!="Yok" and j.modelNo!="Belirtilmemiş" and j.modelNo!="" :
+                    #     if j.modelNo == i.modelNo:
+                    #         equalsProduct.append(j)
+                    #         break
+
+                    if j.prodTitle.lower().find(i['modelNo'].lower()) !=-1:
+                        equalsProduct.append(j)
+                        break
+                
+                for j in gdwt.cicekSepetiAll:
+                    if j.prodTitle.lower().find(i['modelNo'].lower()) !=-1:
+                        equalsProduct.append(j)
+                        break
+                
+                for j in gdwt.hepsiBuradaAll:
+                    if j.prodTitle.lower().find(i['modelNo'].lower()) !=-1:
+                        equalsProduct.append(j)
+                        break
+                
+                if len(equalsProduct) >=2:
+                    allProducts.append(equalsProduct)
+
+
+            print('Filterdan sonra gelip de eslesen verilerin toplamı '+str(len(allProducts)))
+
+
+
+            # kategorilerin ekranda sıralanmasıyla alakalı
+            marka = set()
+            isletimSistemi = set()
+            islemciTipi = set()
+            islemciNesli = set()
+            ram = set()
+            diskTuru = set()
+            ekranBoyu = set()
+            diskBoyutu = set()
+            modelAdi = set()
+
+            for eslesen in allProducts:
+
+                for item in eslesen:
+
+                    if item['site'] == 'Teknosa':
+                        if item['marka'] != "":
+                            # print('')
+                            # print(item['marka'])
+                            # print(item['marka'].capitalize())
+                            # print('')
+                            if item["marka"] == "ASUS":
+                                marka.add(item["marka"].capitalize())
+                            elif item["marka"] == "Hp":
+                                marka.add(item["marka"].upper())
+                            else:
+                                marka.add(item["marka"])
+
+                        if item['isletimSistemi'] !="":
+                            # print('')
+                            # print(item['isletimSistemi'])
+                            # print(item['isletimSistemi'].capitalize())
+                            # print('')
+                            isletimSistemi.add(item['isletimSistemi'])
+                        
+                        if item['islemciTipi'] != "":
+                            # print('')
+                            # print(item['islemciTipi'])
+                            # print(item['islemciTipi'].title())
+                            # print('')
+                            
+                            islemciTipi.add(item['islemciTipi'])
+
+                        if item['islemciNesli'] != "":
+                            if(item['islemciNesli'] !='Yok'):
+                                islemciNesli.add(int(item['islemciNesli']))
+                            else:
+                                islemciNesli.add(0)
+                        
+                        if item['ram'] != "":
+                            ram.add(item['ram'])
+                        
+                        if item['diskTuru'] != "":
+                            # print('')
+                            # print(item['diskTuru'])
+                            # print(item['diskTuru'].title())
+                            # print('')
+                            diskTuru.add(item['diskTuru'])
+                        
+                        if item['ekranBoyu'] != "":
+                            # print('')
+                            # print(item['ekranBoyu'])
+                            # print(item['ekranBoyu'].capitalize())
+                            # print('')
+                            ekranBoyu.add(item['ekranBoyu'])
+                        
+                        if item['diskBoyutu'] != "":
+                            # print('')
+                            # print(item['diskBoyutu'])
+                            # print(item['diskBoyutu'].capitalize())
+                            # print('')
+                            diskBoyutu.add(item['diskBoyutu'])
+
+                        if item['modelAdi'] != "":
+                            
+                            modelAdi.add(item['modelAdi'])
+                        break
+            
+            marka=sorted(marka)
+            islemciNesli=sorted(islemciNesli)
+            islemciTipi=sorted(islemciTipi)
+            ekranBoyu=sorted(ekranBoyu)
+            diskBoyutu=sorted(diskBoyutu)
+            ram=sorted(ram)
+            
+            
+            # print(type(Products.objects.filter(site="Teknosa")))
+            # print("Set Marka uzunlugu "+str(len(marka)))
+            # print("Sets Marka")
+            # print(marka)
+
+                    
+
+
+            # for eslesen in allProducts:
+
+            #     print("Toplam eslesen "+ str(len(eslesen)))
+            #     for i in eslesen:
+            #         print(i.site)
+            #     print("*"*100)
+            
+
+            print('Eslesen verilerin toplam sayısı ' + str(len(allProducts)))
+
+            # for a in allProducts:
+            #     for b in a:
+            #         print(b.site)
+            #     break
+            posts=allProducts
+            page = request.GET.get('page')
+            num_of_item= 20
+            paginator= Paginator(posts,num_of_item)
+            PostsFinal=paginator.get_page(page)
+            
+            dynamicVar = {
+                'products': PostsFinal,
+                'markas':marka,
+                'isletimSistemis' : isletimSistemi,
+                'islemciTipis' : islemciTipi,
+                'islemciNeslis' : islemciNesli,
+                'rams': ram,
+                'diskTurus': diskTuru,
+                'ekranBoyus': ekranBoyu,
+                'diskBoyutus': diskBoyutu,
+                'modelAdis' : modelAdi  
             }
             #tum urunleri al dedik
             
