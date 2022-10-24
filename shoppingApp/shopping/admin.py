@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Products
+from .models import Products, MatchProducts
 # Register your models here.
 # admin uygulamasında gostertiyoruz
 
@@ -13,3 +13,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 # gosterecegiz
 admin.site.register(Products, ProductAdmin)
+
+admin.site.register(MatchProducts,ProductAdmin)
+

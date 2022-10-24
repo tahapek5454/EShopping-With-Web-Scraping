@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render
-from .models import Prods
+from .models import MatchProducts
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.cache import cache
 
@@ -14,7 +14,7 @@ def get_data():
         posts=cache.get('products')
         print('Redis')
     else: 
-        prods=Prods.objects.all()
+        prods=MatchProducts.objects.all()
         for prod in prods:
             posts.append(prod)
         print('sqlite')
@@ -32,7 +32,7 @@ def asc_get_price_data():
         posts=cache.get('asc_products')
         print('Redis')
     else: 
-        prods=Prods.objects.all().order_by('fiyat')
+        prods=MatchProducts.objects.all().order_by('fiyat')
         for prod in prods:
             posts.append(prod)
         print('sqlite')
@@ -50,7 +50,7 @@ def desc_get_price_data():
         posts=cache.get('desc_products')
         print('Redis')
     else: 
-        prods=Prods.objects.all().order_by('-fiyat')
+        prods=MatchProducts.objects.all().order_by('-fiyat')
         for prod in prods:
             posts.append(prod)
         print('sqlite')
@@ -68,7 +68,7 @@ def get_star_data():
         posts=cache.get('stars')
         print('Redis')
     else: 
-        prods=Prods.objects.all().order_by('-puani')
+        prods=MatchProducts.objects.all().order_by('-puani')
         for prod in prods:
             posts.append(prod)
         print('sqlite')
@@ -98,7 +98,7 @@ def prodDetails(request,id):
         print('Hit the cache')
     else:
         try:
-            product=Prods.objects.get(id=id)
+            product=MatchProducts.objects.get(prodId=id)
             cache.set(id,product)
             print('Hit the db')
         except:

@@ -44,52 +44,7 @@ class UcuzlukPazari_Database:
     def delete_col(self):
         
         self.mycol.delete_many({})
-    
 
-class EcommerceWeb_Database:
-    
-    client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
-    db=client["EcommerceProdData"]
-    mycol=db["ecommerce_prods"]
-    
-    def __init__(self) -> None:
-        pass
-    
-    def add_dict_product(self,prod_dict):
-        self.mycol.insert_many(prod_dict)
-        
-    def add_one_product(self,dict):
-        self.mycol.insert_one(dict)
-        
-    def control_add_product(self,prod_dict):
-        
-        prod= self.mycol.find()
-        if(prod==None):
-            
-            self.add_dict_product(prod_dict)
-            
-        else:
-            for p in prod_dict:
-                    
-                    for a in prod:
-                        
-                        if(a['prodTitle']==p['prodTitle']):
-                            
-                            self.delete_product(a)
-                            break
-               
-                    self.add_one_product(p)
-                  
-    def delete_product(self,dict):
-        
-        self.mycol.delete_one(dict)
-            
-    def delete_col(self):
-        
-        self.mycol.delete_many({})    
-
-
-    
 class WebScrapping:
 
     headers = {
@@ -817,48 +772,6 @@ class WebScrapping:
         
         return 'Yok'
       
-    def ShoppingApp(self):
-        
-        all_products=[]
-        
-        for prod in self.pcTeknosaList:
-            
-            equal_product=[]
-            equal_product.append(prod)
-
-            for prod2 in self.pcN11List:
-                
-                if(prod2['modelNo']!='Yok' and prod2['modelNo']!='Belirtilmemiş' and prod2['modelNo']!=''):
-                    
-                    if(prod['modelNo']==prod2['modelNo']):
-                        equal_product.append(prod2)
-                        break
-                else:
-                    if prod2['prodTitle'].find(prod['modelNo']) !=-1:
-                        equal_product.append(prod2)
-                        break
-            for prod2 in self.pcTrendyolList:
-
-                if prod2['prodTitle'].find(prod['modelNo']) !=-1:
-                    equal_product.append(prod2)
-                    break
-            for prod2 in self.pcCicekSepetiList:
-                
-                if prod2['prodTitle'].find(prod['modelNo']) !=-1:
-                    equal_product.append(prod2)
-                    break
-            
-            for prod2 in self.pcHepsiBuradaList:
-                
-                if prod2['prodTitle'].find(prod['modelNo']) !=-1:
-                    equal_product.append(prod2)
-                    break
-            
-            all_products.append(equal_product)
-            
-        for x in  all_products:
-            print(len(x))
-            print('*'*100)    
         
         
         
@@ -891,25 +804,7 @@ scraping.hepsiBurada()
 up.control_add_product(scraping.pcHepsiBuradaList)
 
 
-
-
-
-
-
-
-# scraping.ShoppingApp()
-
-# database = Database()
-# db=EcommerceWeb_Database()
-#db.control_add_product(scraping.pcTeknosaList)
-# database.control_add_product(scraping.pcCicekSepetiList)
-# database.control_add_product(scraping.pcN11List)
-# database.control_add_product(scraping.pcTrendyolList)
-# database.control_add_product(scraping.pcTeknosaList)
-#database.delete_col()
-
 # (Hepsinden data çekilip veritabanına başarılı bir şekilde yazılıyor. Aynı ürünlerin bulunup sitede gösterilmesi gerekir. Kategoriler ile eşlenmesi gerekir. Index yapısına bakılması gerekir. Search button aktif edilmesi gerekir. Ayrıntı bilgilerinin görüntülenmesi gerekir.)
-
 
 
 with open('id.txt','w') as f:

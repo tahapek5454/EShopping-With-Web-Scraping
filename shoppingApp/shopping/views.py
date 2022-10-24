@@ -10,6 +10,91 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
 # burada beliritilen linklerde neler gozukecegini soyleriz
+class Database:
+    
+    client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
+    db=client["WebScraping"]
+    mycol=db["shopping_matchproducts"]
+    
+    def __init__(self) -> None:     
+        pass
+    
+    def add_dict_product(self,prod_dict):
+        self.mycol.insert_many(prod_dict)
+        
+    def add_one_product(self,dict):
+        self.mycol.insert_one(dict)
+        
+    def control_add_product(self,prod_dict):
+        
+        prod= self.mycol.find()
+        if(prod==None):
+            
+            self.add_dict_product(prod_dict)
+            
+        else:
+            for p in prod_dict:
+                    
+                    for a in prod:
+                        
+                        if(a['prodLink']==p['prodLink']):
+                            
+                            self.delete_product(a)
+                            break
+               
+                    self.add_one_product(p)
+                  
+    def delete_product(self,dict):
+        
+        self.mycol.delete_one(dict)
+            
+    def delete_col(self):
+        
+        self.mycol.delete_many({})
+
+class Database2:
+    
+    client=MongoClient('mongodb://{0}:{0}@localhost:27017'.format('abvag','abvag'))
+    db=client["WebScraping"]
+    mycol=db["ecommerce_matchproducts"]
+    
+    def __init__(self) -> None:     
+        pass
+    
+    def add_dict_product(self,prod_dict):
+        self.mycol.insert_many(prod_dict)
+        
+    def add_one_product(self,dict):
+        self.mycol.insert_one(dict)
+        
+    def control_add_product(self,prod_dict):
+        
+        prod= self.mycol.find()
+        if(prod==None):
+            
+            self.add_dict_product(prod_dict)
+            
+        else:
+            for p in prod_dict:
+                    
+                    for a in prod:
+                        
+                        if(a['prodLink']==p['prodLink']):
+                            
+                            self.delete_product(a)
+                            break
+               
+                    self.add_one_product(p)
+                  
+    def delete_product(self,dict):
+        
+        self.mycol.delete_one(dict)
+            
+    def delete_col(self):
+        
+        self.mycol.delete_many({})  
+
+
 
 class GetDatasWithThread:
 
@@ -1000,6 +1085,133 @@ def DescStarProd(request):
     #spesifik bir yerden aramasını istedigimizden template altında dosya olusturduk
     # return render(request, "shopping/index.html", dynamicVar) 
     return render(request, "shopping/index.html", dynamicVar)
+
+def get_match_products():
+    id=10000
+    db = Database()
+    db2= Database2()
+    gdwt = GetDatasWithThread()    
+    teknosaAllThread = threading.Thread(target=gdwt.getTeknosaAll)
+    trendYolAllThread = threading.Thread(target=gdwt.getTrendYolAll)
+    n11AllThread = threading.Thread(target=gdwt.getN11All)
+    cicekSepetiAllThread = threading.Thread(target=gdwt.getCicekSepetiAll)
+    hepsiBuradaAllThread = threading.Thread(target=gdwt.getHepsiBuradaAll)
+
+    # teknosaAll = Products.objects.filter(site="Teknosa")
+    # trendYolAll = Products.objects.filter(site="Trendyol")
+    # n11All = Products.objects.filter(site="n11")
+    # cicekSepetiAll = Products.objects.filter(site="ÇiçekSepeti")
+    # hepsiBuradaAll = Products.objects.filter(site="Hepsiburada")
+
+    teknosaAllThread.start()
+    trendYolAllThread.start()
+    n11AllThread.start()
+    cicekSepetiAllThread.start()
+    hepsiBuradaAllThread.start()
+
+    teknosaAllThread.join()
+    trendYolAllThread.join()
+    n11AllThread.join()
+    cicekSepetiAllThread.join()
+    hepsiBuradaAllThread.join()
+
+
+    # print("Teknosa  "+ str(len(gdwt.teknosaAll)))
+    # print("Trend Yol    " + str(len(gdwt.trendYolAll)))
+    # print("N11  " + str(len(gdwt.n11All)))
+    # print("Cicek Sepeti     "+ str(len(gdwt.cicekSepetiAll)))
+    # print("Hepsi Burda  " + str(len(gdwt.hepsiBuradaAll)))
+
+    allProducts = []
+
+    for i in gdwt.teknosaAll:
+        # print(i)
+        equalsProduct = []
+        equalsProduct.append(i)
+        productDict = {
+                'marka':i.marka,
+                'modelAdi':i.modelAdi,
+                'modelNo':i.modelNo,
+                'isletimSistemi':i.isletimSistemi,
+                'islemciTipi':i.islemciTipi,
+                'islemciNesli':i.islemciNesli,
+                'ram':i.ram,
+                'diskBoyutu':i.ram,
+                'diskTuru':i.diskTuru,
+                'ekranBoyu':i.ekranBoyu,
+                'puani':i.puani,
+                'fiyat':i.fiyat,
+                'site':i.site,
+                'prodLink':i.prodLink,
+                'prodImageLink':i.imageLink,
+                'prodTitle':i.prodTitle,
+                'prodId':i.id,
+                'puani2':"",
+                'fiyat2':"",
+                'site2':"",
+                'prodLink2':"",
+                'puani3':"",
+                'fiyat3':"",
+                'site3':"",
+                'prodLink3':"",
+                'puani4':"",
+                'fiyat4':"",
+                'site4':"",
+                'prodLink4':"",
+                'puani5':"",
+                'fiyat5':"",
+                'site5':"",
+                'prodLink5':"",
+                'puani6':"",
+                'fiyat6':"",
+                'site6':"",
+                'prodLink6':"",
+                'puani6':"",
+                'fiyat6':"",
+                'site6':"",
+                'prodLink6':"",
+                'id':id
+            }
+        for j in gdwt.trendYolAll:
+            if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
+                equalsProduct.append(j)
+                break
+        
+        for j in gdwt.n11All:
+
+            # if j.modelNo!="Yok" and j.modelNo!="Belirtilmemiş" and j.modelNo!="" :
+            #     if j.modelNo == i.modelNo:
+            #         equalsProduct.append(j)
+            #         break
+
+            if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
+                equalsProduct.append(j)
+                break
+        
+        for j in gdwt.cicekSepetiAll:
+            if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
+                equalsProduct.append(j)
+                break
+        
+        for j in gdwt.hepsiBuradaAll:
+            if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
+                equalsProduct.append(j)
+                break
+        
+        if len(equalsProduct) >=2:
+            index=1
+            for m in equalsProduct:
+                if(index==1):
+                    index+=1
+                    continue
+                productDict['puani'+str(index)]=m.puani
+                productDict['fiyat'+str(index)]=m.fiyat
+                productDict['site'+str(index)]=m.site
+                productDict['prodLink'+str(index)]=m.prodLink
+                index=index+1
+            db.add_one_product(productDict)
+            db2.add_one_product(productDict)
+            id=id+1
 
 def AscSortProd(request):
     

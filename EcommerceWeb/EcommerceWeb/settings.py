@@ -100,7 +100,7 @@ WSGI_APPLICATION = 'EcommerceWeb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'EcommerceProdData',
+        'NAME': 'WebScraping',
         'CLIENT': {
                 'host': 'mongodb://abvag:abvag@localhost:27017'
             }    
