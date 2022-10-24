@@ -62,7 +62,7 @@ class MatchProducts(models.Model):
     puani = models.CharField(max_length = 5)
     fiyat = models.DecimalField(max_digits=8, decimal_places=2)
     prodLink = models.CharField(max_length = 300)
-    imageLink = models.CharField(max_length = 300)
+    prodImageLink = models.CharField(max_length = 300)
     prodTitle = models.CharField(max_length = 300)
     site = models.CharField(max_length = 50)
     prodId=models.SmallIntegerField(null=True,blank=True,default=None)

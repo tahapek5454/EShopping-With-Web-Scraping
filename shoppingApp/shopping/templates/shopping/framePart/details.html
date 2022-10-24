@@ -8,34 +8,340 @@
  <!-- main start -->
  <main>
     <div class="mt-4 mx-3">
-        <div class="row">
+        <div class="row mb-2">
+            <div class="col-sm-4 ">
+        
+                <img src= "{{ product.prodImageLink }}"  alt="Ressim Bulunamadı"
+                    class="pcImage img-responsive">
+        
+            </div>
+        
+        
+            <div class="col-sm-8 ">
+        
+                <div class="row">
+        
+                    <h5>
+                        
 
-            <!-- products start -->
+                            <!-- gidecegi yolu verdik ayriyetten parametre alıyor onu 3. olarak ekliyoruz -->
+                            <!-- Dinamik veriyi yazmak icin de ic ice koseli parantezs icersinde yazıyoruz -->
+                            
+                                
+                            {{ product.prodTitle }}
+                                
 
-            <div class="row ">
-                <div class="container">
-                    <center>
-                    <img src={{ product.imageLink }} alt="Ressim Bulunamadı" class="pcImage img-responsive" style="width: 25%; ">
-                    </center>
+                    </h5>
+        
                 </div>
+        
+                <hr>
+        
+                <div class="row">
+        
+        
+                    {% if product.fiyat != "" %}
+        
+                    <!-- para falan yazılan yer -->
+                    <div class="col-sm ">
+        
+                        <div class="row">
+                        <p class="fw-bold text-center">{{ product.fiyat }}</p>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm ">
+                                <center>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                </center>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <p class="fw-bold text-center">{{ product.puani }}</p>
+                        </div>
+              
+                    </div>
+        
+                    {% endif %}
+        
+                    {% if product.fiyat2 != "" %}
+        
+                    <!-- para falan yazılan yer -->
+                    <div class="col-sm ">
+        
+                        <div class="row">
+                        <p class="fw-bold text-center">{{ product.fiyat2 }}</p>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm ">
+                                <center>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                </center>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <p class="fw-bold text-center">{{ product.puani2 }}</p>
+                        </div>
+              
+                    </div>
+        
+                    {% endif %}
+        
+                    {% if product.fiyat3 != "" %}
+        
+                    <!-- para falan yazılan yer -->
+                    <div class="col-sm ">
+        
+                        <div class="row">
+                        <p class="fw-bold text-center">{{ product.fiyat3 }}</p>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm ">
+                                <center>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                </center>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <p class="fw-bold text-center">{{ product.puani3 }}</p>
+                        </div>
+              
+                    </div>
+        
+                    {% endif %}
+        
+                    {% if product.fiyat4 != "" %}
+        
+                    <!-- para falan yazılan yer -->
+                    <div class="col-sm ">
+        
+                        <div class="row">
+                        <p class="fw-bold text-center">{{ product.fiyat4 }}</p>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm ">
+                                <center>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                </center>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <p class="fw-bold text-center">{{ product.puani4 }}</p>
+                        </div>
+              
+                    </div>
+        
+                    {% endif %}
+        
+                    {% if product.fiyat5 != "" %}
+        
+                    <!-- para falan yazılan yer -->
+                    <div class="col-sm ">
+        
+                        <div class="row">
+                        <p class="fw-bold text-center">{{ product.fiyat5 }}</p>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm ">
+                                <center>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                </center>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <p class="fw-bold text-center">{{ product.puani5 }}</p>
+                        </div>
+              
+                    </div>
+        
+                    {% endif %}
+        
+                    {% if product.fiyat6 != "" %}
+        
+                    <!-- para falan yazılan yer -->
+                    <div class="col-sm ">
+        
+                        <div class="row">
+                        <p class="fw-bold text-center">{{ product.fiyat6 }}</p>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm ">
+                                <center>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                <i class="fa fa-star starColor" aria-hidden="true"></i>
+                                </center>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <p class="fw-bold text-center">{{ product.puani6 }}</p>
+                        </div>
+              
+                    </div>
+        
+                    {% endif %}
+        
+                </div>
+        
+                <hr>
+        
+        
+        
+                <div class="row">
+                    {% if product.site != "" %}
+                    <div class="col-sm ">
+                        <a href={{ product.prodLink }}>
+                            <center>
+                                {% if product.site == "n11" %}
+                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site == "Teknosa" %}
+                                <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                                {% elif product.site == "ÇiçekSepeti" %}
+                                <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site == "Trendyol" %}
+                                <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site == "Hepsiburada" %}
+                                <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% endif %}
+                            </center>
+                        </a>
+                    </div>
+                    {% endif %}
+        
+                    {% if product.site2 != "" %}
+                    <div class="col-sm ">
+                        <a href={{ product.prodLink2 }}>
+                            <center>
+                                {% if product.site2 == "n11" %}
+                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site2 == "Teknosa" %}
+                                <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                                {% elif product.site2 == "ÇiçekSepeti" %}
+                                <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site2 == "Trendyol" %}
+                                <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site2 == "Hepsiburada" %}
+                                <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% endif %}
+                            </center>
+                        </a>
+                    </div>
+                    {% endif %}
+        
+                    {% if product.site3 != "" %}
+                    <div class="col-sm ">
+                        <a href={{ product.prodLink3 }}>
+                            <center>
+                                {% if product.site3 == "n11" %}
+                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site3 == "Teknosa" %}
+                                <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                                {% elif product.site3 == "ÇiçekSepeti" %}
+                                <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site3 == "Trendyol" %}
+                                <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site3 == "Hepsiburada" %}
+                                <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% endif %}
+                            </center>
+                        </a>
+                    </div>
+                    {% endif %}
+        
+                    {% if product.site4 != "" %}
+                    <div class="col-sm ">
+                        <a href={{ product.prodLink4 }}>
+                            <center>
+                                {% if product.site4 == "n11" %}
+                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site4 == "Teknosa" %}
+                                <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                                {% elif product.site4 == "ÇiçekSepeti" %}
+                                <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site4 == "Trendyol" %}
+                                <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site4 == "Hepsiburada" %}
+                                <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% endif %}
+                            </center>
+                        </a>
+                    </div>
+                    {% endif %}
+        
+                    {% if product.site5 != "" %}
+                    <div class="col-sm ">
+                        <a href={{ product.prodLink5 }}>
+                            <center>
+                                {% if product.site5 == "n11" %}
+                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site5 == "Teknosa" %}
+                                <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                                {% elif product.site5 == "ÇiçekSepeti" %}
+                                <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site5 == "Trendyol" %}
+                                <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site5 == "Hepsiburada" %}
+                                <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% endif %}
+                            </center>
+                        </a>
+                    </div>
+                    {% endif %}
+        
+                    {% if product.site6 != "" %}
+                    <div class="col-sm ">
+                        <a href={{ product.prodLink6 }}>
+                            <center>
+                                {% if product.site6 == "n11" %}
+                                <img src="{% static 'shopping/img/n11.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site6 == "Teknosa" %}
+                                <img src="{% static 'shopping/img/teknosa.png' %}" alt="Ressim Bulunamadı" width="100" height="80">
+                                {% elif product.site6 == "ÇiçekSepeti" %}
+                                <img src="{% static 'shopping/img/cicekSepeti.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site6 == "Trendyol" %}
+                                <img src="{% static 'shopping/img/trendYol.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% elif product.site6 == "Hepsiburada" %}
+                                <img src="{% static 'shopping/img/hepsiBurada.png' %}" alt="Ressim Bulunamadı" width="100" height="60">
+                                {% endif %}
+                            </center>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+        
+        
             </div>
-
-
-
-
-
-            <div class="row">
-                <center>
-                <h5>{{ product.prodTitle }}</h5>
-                </center>
-            </div>
-
-            <hr>
-
-
-
-            <!-- product end -->
-
+        
+        
+        
+        
         </div>
 
         <h1 class="display-6 mx-3 my-3   ">Ürün Özellikleri</h1>
@@ -174,6 +480,7 @@
             </div>
 
         </table>
+    </div>
 
 </main>
 <!-- main end -->
