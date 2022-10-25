@@ -43,7 +43,7 @@ class LaptopStore41_Database:
             
     def delete_col(self):
         
-        self.mycol.delete_many({})
+        self.mycol.delete_many({'site':'41LaptopStore'})
 
 
 def laptopstore41():
@@ -89,4 +89,5 @@ def laptopstore41():
             id=id+1   
             print(productDict)
   
-laptopstore41()              
+db= LaptopStore41_Database()
+db.delete_col()

@@ -103,9 +103,15 @@ class GetDatasWithThread:
     n11All=[]
     cicekSepetiAll=[]
     hepsiBuradaAll=[]
+    laptop41storeAll=[]
 
     def __init__(self) -> None:
         pass
+    
+    def getLaptop41StoreAll(self):
+        
+        self.laptop41storeAll = Products.objects.filter(site="41LaptopStore")
+
 
     def getTeknosaAll(self):
         #print('Teknosa cekerim')
@@ -879,6 +885,17 @@ def filterWithSearchBar(request):
                 elif item['site5'] == "ÇiçekSepeti":
                     allProducts.append(item)
                 elif item['site6'] == "ÇiçekSepeti":
+                    allProducts.append(item)
+            elif barValue == "41LaptopStore":
+                if item['site2'] == "41LaptopStore":
+                    allProducts.append(item)
+                elif item['site3'] == "41LaptopStore":
+                    allProducts.append(item)
+                elif item['site4'] == "41LaptopStore":
+                    allProducts.append(item)
+                elif item['site5'] == "41LaptopStore":
+                    allProducts.append(item)
+                elif item['site6'] == "41LaptopStore":
                     allProducts.append(item)
 
 
@@ -1813,14 +1830,18 @@ def DescStarProd(request):
 
 def get_match_products():
     id=10000
-    db = Database()
-    db2= Database2()
+    listss=[]
+    db=Database()
+    db2=Database2()
+    db.delete_col()
+    db2.delete_col()
     gdwt = GetDatasWithThread()    
     teknosaAllThread = threading.Thread(target=gdwt.getTeknosaAll)
     trendYolAllThread = threading.Thread(target=gdwt.getTrendYolAll)
     n11AllThread = threading.Thread(target=gdwt.getN11All)
     cicekSepetiAllThread = threading.Thread(target=gdwt.getCicekSepetiAll)
     hepsiBuradaAllThread = threading.Thread(target=gdwt.getHepsiBuradaAll)
+    laptop41storeAllThread= threading.Thread(target=gdwt.getLaptop41StoreAll)
 
     # teknosaAll = Products.objects.filter(site="Teknosa")
     # trendYolAll = Products.objects.filter(site="Trendyol")
@@ -1833,13 +1854,15 @@ def get_match_products():
     n11AllThread.start()
     cicekSepetiAllThread.start()
     hepsiBuradaAllThread.start()
+    laptop41storeAllThread.start()
+
 
     teknosaAllThread.join()
     trendYolAllThread.join()
     n11AllThread.join()
     cicekSepetiAllThread.join()
     hepsiBuradaAllThread.join()
-
+    laptop41storeAllThread.join()
 
     # print("Teknosa  "+ str(len(gdwt.teknosaAll)))
     # print("Trend Yol    " + str(len(gdwt.trendYolAll)))
@@ -1861,7 +1884,7 @@ def get_match_products():
                 'islemciTipi':i.islemciTipi,
                 'islemciNesli':i.islemciNesli,
                 'ram':i.ram,
-                'diskBoyutu':i.ram,
+                'diskBoyutu':i.diskBoyutu,
                 'diskTuru':i.diskTuru,
                 'ekranBoyu':i.ekranBoyu,
                 'puani':i.puani,
@@ -1923,6 +1946,11 @@ def get_match_products():
                 equalsProduct.append(j)
                 break
         
+        for j in gdwt.laptop41storeAll:
+            if j.prodTitle.lower().find(i.modelNo.lower()) !=-1:
+                equalsProduct.append(j)
+                break
+        
         if len(equalsProduct) >=2:
             index=1
             for m in equalsProduct:
@@ -1932,12 +1960,15 @@ def get_match_products():
                 productDict['puani'+str(index)]=m.puani
                 productDict['fiyat'+str(index)]=m.fiyat
                 productDict['site'+str(index)]=m.site
-                productDict['prodLink'+str(index)]=m.prodLink
+                productDict['prodLink'+str(index)]="http://"+m.prodLink
                 index=index+1
+            listss.append(productDict)
             db.add_one_product(productDict)
             db2.add_one_product(productDict)
             id=id+1
+    print(len(listss))
 
+get_match_products()
 def AscSortProd(request):
     
     gdwt = GetDatasWithThread()

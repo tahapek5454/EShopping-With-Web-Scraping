@@ -57,17 +57,15 @@ class WebScrapping:
     pcHepsiBuradaList=[]
     pcTrendyolList=[]
     pcCicekSepetiList=[]
-    product_id=1000
+    pcLaptopStore41=[]
+    product_id=40000
 
 
     def __init__(self) -> None:
-        with open('id.txt','r') as f:
-           self.product_id = f.read()
-           self.product_id = int(self.product_id)
-
-
-
-
+        # with open('id.txt','r') as f:
+        #     self.product_id = f.read()
+        #     self.product_id = int(self.product_id)
+        pass
 
 
     def n11(self):
@@ -673,8 +671,11 @@ class WebScrapping:
                 return item
             elif item.find('-') != -1:
                 no = item[item.find('-')+1:item.find('-')+3]
-                if int(no)>12:
-                    no=item[item.find('-')+1:item.find('-')+2]
+                if(no.isnumeric()):
+                    if int(no)>12:
+                        no=item[item.find('-')+1:item.find('-')+2]
+                else:
+                    no=item[item.find('-')+1:item.find('-')+1]
                 return no
                     
             else:
@@ -772,40 +773,83 @@ class WebScrapping:
         
         return 'Yok'
       
+    def laptopstore41(self):
+        list=[]
+        for page in range(1,17):
+            
+            base_url="http://127.0.0.1:8000/?page={}".format(page)
+            response=requests.get(base_url)
+            soup=BeautifulSoup(response.content,'html.parser')
+            products=soup.find_all('div',{'class':'col-sm-3'})
+            for prod in products:
+                prodTitle=prod.find('h5').text.strip()
+                prodLink="127.0.0.1:8000"+prod.find('a').get('href').strip()
+                rating_price=prod.find('div',{'class':'card mb-3'}).find('ul',{'class':'list-group list-group-flush'}).find_all('div',{'class':'col'})
+                index=0
+                for data in rating_price:
+                    c=data.find_all('p',{'class':'fw-bold'})
+                    for b in c:
+                        if(index==0):
+                            prodrating=b.text
+                        elif(index==1):
+                            prodprice=b.text
+                        index=index+1
+                productDict = {
+                            'marka':"",
+                            'modelAdi':"",
+                            'modelNo':"",
+                            'isletimSistemi':"",
+                            'islemciTipi':"",
+                            'islemciNesli':"",
+                            'ram':"",
+                            'diskBoyutu':"",
+                            'diskTuru':"",
+                            'ekranBoyu':"",
+                            'puani':prodrating,
+                            'fiyat':prodprice,
+                            'site':'41LaptopStore',
+                            'prodLink':prodLink,
+                            'prodImageLink':"",
+                            'prodTitle':prodTitle,
+                            'id':self.product_id
+                        }
+                self.product_id=self.product_id+1 
+                self.pcLaptopStore41.append(productDict)
         
         
-        
+
 up = UcuzlukPazari_Database()    
           
 scraping = WebScrapping()
 
-print('N11 Data Scrapping')
-scraping.n11()
-up.control_add_product(scraping.pcN11List)
+# print('N11 Data Scrapping')
+# scraping.n11()
+# up.control_add_product(scraping.pcN11List)
 
-print('Teknosa Data Scrapping')
-scraping.teknosa()
-up.control_add_product(scraping.pcTeknosaList)
+# print('Teknosa Data Scrapping')
+# scraping.teknosa()
+# up.control_add_product(scraping.pcTeknosaList)
 
-print("Trendyol")
-scraping.trendyol()
-up.control_add_product(scraping.pcTrendyolList)
+# print("Trendyol")
+# scraping.trendyol()
+# up.control_add_product(scraping.pcTrendyolList)
 
 
 
-print("Cicek")
-scraping.ciceksepeti()
+# print("Cicek")
+# scraping.ciceksepeti()
 
-up.control_add_product(scraping.pcCicekSepetiList)
+# up.control_add_product(scraping.pcCicekSepetiList)
 
-print("hepsibur")
-scraping.hepsiBurada()
+# print("hepsibur")
+# scraping.hepsiBurada()
 
-up.control_add_product(scraping.pcHepsiBuradaList)
+# up.control_add_product(scraping.pcHepsiBuradaList)
 
+scraping.laptopstore41()
+up.add_dict_product(scraping.pcLaptopStore41)
 
 # (Hepsinden data çekilip veritabanına başarılı bir şekilde yazılıyor. Aynı ürünlerin bulunup sitede gösterilmesi gerekir. Kategoriler ile eşlenmesi gerekir. Index yapısına bakılması gerekir. Search button aktif edilmesi gerekir. Ayrıntı bilgilerinin görüntülenmesi gerekir.)
 
 
-with open('id.txt','w') as f:
-    f.write(scraping.product_id+1)
+

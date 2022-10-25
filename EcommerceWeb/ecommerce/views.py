@@ -1,9 +1,9 @@
 import re
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import MatchProducts
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.cache import cache
-
+import pymongo
 
 def get_data():
     
@@ -98,7 +98,7 @@ def prodDetails(request,id):
         print('Hit the cache')
     else:
         try:
-            product=MatchProducts.objects.get(prodId=id)
+            product=MatchProducts.objects.get(id=id)
             cache.set(id,product)
             print('Hit the db')
         except:

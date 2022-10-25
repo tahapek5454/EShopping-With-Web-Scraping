@@ -1,8 +1,12 @@
+
+
+
+<!-- navbar -->
 <header>
 
-    <nav class="navbar navbar-dark bg-secondary navbar-expand-sm ">
-        
-            <a class="navbar-brand mx-2" href="{% url 'home' %}">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm" id="main-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 UcuzlukPazarı
             </a>
@@ -12,7 +16,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="offcanvas offcanvas-end bg-secondary offcanvas-dark" tabindex="-1" id="offcanvasNavbar"
+            <div class="offcanvas offcanvas-end offcanvas-dark" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
@@ -25,7 +29,8 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">AnaSayfa</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Ana Sayfa</a>
+                            <!-- url home diyerek home adı verilen url e bizi aktarır -->
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#about">Hakkımızda</a>
@@ -44,24 +49,11 @@
                         </li>
                     </ul>
 
-                    <form class="d-flex mx-2">
-                        <input class="form-control me-2" value="" id="search" type="search" placeholder="Ara" aria-label="Ara">
-                        <button onclick="search()" class="btn btn-outline-light" type="submit">Ara</button>
-                        <script> 
-
-                            function search(){
-
-                                var x=document.getElementById("search").value;
-
-                                if ( x === 'a'){
-                                    window.open("/index")
-                                }
-                            }
-                        </script>
-
-                    </form>
+                
                 </div>
             </div>
+        </div>
     </nav>
 
 </header>
+<!-- navbar end -->
