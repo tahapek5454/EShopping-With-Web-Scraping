@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%} AddPage {% endblock%}
+
+{%block main%}
+
+<div class="container mt-3">
+
+    <div class="col">
+        <h1 class="display-6">Update Product</h1>
+        <hr>
+  
+        <!-- ilgili url e post edicez gondericez bilgilerimizi -->
+        <!-- id burda js tarafından kullanılır ama name server tarafından kullanılır
+             biz bilgileri servera post edecegimizde anahtar kelimeleri name tagıyla yaptık -->
+        <form  method="POST">
+           {% csrf_token %}
+           <!-- bu token güvenlig icin formu getleyen ve postlayan aynı kisği mi kontrol eder
+                 olmazsa calismaz -->
+           
+           <div class="mb-3">
+            <label for="marka" class="form-label">Marka</label>
+            <input type="text" class="form-control" name="marka" aria-describedby="markaHelp">
+            
+          </div>
+
+          <div class="mb-3">
+            <label for="modelAdi" class="form-label">Model Adı</label>
+            <input type="text" class="form-control" name="modelAdi">
+          </div>
+
+          <div class="mb-3">
+            <label for="modelNo" class="form-label">Model No</label>
+            <input type="text" class="form-control" name="modelNo">
+          </div>
+  
+           <div class="mb-3">
+             <label for="isletimSistemi" class="form-label">İşletim Sistemi</label>
+             <input type="text" class="form-control" name="isletimSistemi" aria-describedby="isletimSistemiHelp">
+            
+           </div>
+
+           <div class="mb-3">
+             <label for="islemciTipi" class="form-label">İşlemci Tipi</label>
+             <input type="text" class="form-control" name="islemciTipi">
+           </div>
+
+           <div class="mb-3">
+            <label for="islemciNesli" class="form-label">İslemci Nesli</label>
+            <input type="text" class="form-control" name="islemciNesli">
+          </div>
+
+          <div class="mb-3">
+            <label for="ram" class="form-label">Ram</label>
+            <input type="text" class="form-control" name="ram">
+          </div>
+
+          <div class="mb-3">
+            <label for="diskBoyutu" class="form-label">Disk Boyutu</label>
+            <input type="text" class="form-control" name="diskBoyutu">
+          </div>
+
+          <div class="mb-3">
+            <label for="diskTuru" class="form-label">Disk Türü</label>
+            <input type="text" class="form-control" name="diskTuru">
+          </div>
+
+          <div class="mb-3">
+            <label for="ekranBoyu" class="form-label">Ekran Boyu</label>
+            <input type="text" class="form-control" name="ekranBoyu">
+          </div>
+
+          <div class="mb-3">
+            <label for="puani" class="form-label">Puanı</label>
+            <input type="text" class="form-control" name="puani">
+          </div>
+
+          <div class="mb-3">
+            <label for="fiyat" class="form-label">Fiyat</label>
+            <input type="text" class="form-control" name="fiyat">
+          </div>
+
+          <div class="mb-3">
+            <label for="prodLink" class="form-label">ProdLink</label>
+            <input type="text" class="form-control" name="prodLink">
+          </div>
+
+          <div class="mb-3">
+            <label for="prodImageLink" class="form-label">prodImageLink</label>
+            <input type="text" class="form-control" name="prodImageLink">
+          </div>
+
+          <div class="mb-3">
+            <label for="prodTitle" class="form-label">Prod Title</label>
+            <input type="text" class="form-control" name="prodTitle">
+          </div>
+
+          <div class="mb-3">
+            <label for="site" class="form-label">Site</label>
+            <input type="text" class="form-control" name="site">
+          </div>
+
+          <div class="mb-3">
+            <label for="id" class="form-label">Id</label>
+            <input type="text" class="form-control" name="id">
+          </div>
+
+           <button type="submit" class="btn btn-primary mb-3">Submit</button>
+        </form>
+     </div>
+   
+</div>
+
+
+{% endblock%}
