@@ -7,5 +7,7 @@ urlpatterns = [
     path("<int:id>",views.prodDetails,name='productDetails'),
     path("descsort",views.DescSortProd,name="SortprodDesc"),
     path("ascsort",views.AscSortProd,name="SortprodAsc"),
-    path("starsort",views.prodStarSort,name="SortprodStar")
+    path("starsort",views.prodStarSort,name="SortprodStar"),
+    path("category", views.filterByCategory, name='filterByCategory'),
+    path("search", views.filterWithSearchBar, name='filterWithSearchBar')
 ]

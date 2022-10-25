@@ -9,117 +9,182 @@
     <div class="mt-4 mx-3">
         <div class="row">
 
+            <!-- categories start -->
+
+
             <div class="col-sm-2">
+                <form action="{% url 'filterByCategory' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row mb-4">
+                        <center>
+                        <button type="submit" class="btn btn-outline-light" id="uygula"
+                            style="background-color: orange;">Uygula</button>
+                        </center>
+                    </div>
 
-                <div class="row mb-4 ">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">Marka</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Asus
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Monster
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Apple
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Lenovo
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            Dell
-                        </li>
-                    </ul>
-                </div>
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Marka</p>
+                            </li>
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">İşlemci</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i3
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i5
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i7
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            i9
-                        </li>
-                    </ul>
-                </div>
+                            {% for marka in markas %}
+                            <li class="list-group-item a">
+                                <input class="form-check-input me-1" name="marka" type="checkbox" value={{ marka }} aria-label="...">
+                                {{ marka|title }}
+                            </li>
+                            {% endfor %}
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">Ram</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            2GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            4GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            8GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            16GB
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            32GB
-                        </li>
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
 
-                <div class="row mb-4">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p class="fw-bold">Ekran Boyutu</p>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            12
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            13.6
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            14.5
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            16.7
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            20
-                        </li>
-                    </ul>
-                </div>
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">İsletim Sistemi</p>
+                            </li>
+
+                            {% for isletimSistemi in isletimSistemis %}         
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="isletimSistemi" type="checkbox" value="{{isletimSistemi}}" aria-label="...">
+                                {{ isletimSistemi|title }}
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">İslemci Tipi</p>
+                            </li>
+                            
+                            {% for islemciTipi in islemciTipis %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="islemciTipi" type="checkbox" value="{{ islemciTipi }}" aria-label="...">
+                                {{ islemciTipi|title }}
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">İslemci Nesli</p>
+                            </li>
+
+                            {% for islemciNesli in islemciNeslis %}
+                            {% if islemciNesli == 0 %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="islemciNesli" type="checkbox" value="Yok" aria-label="...">
+                                Yok
+                            </li>
+                            {% else %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="islemciNesli" type="checkbox" value="{{ islemciNesli }}" aria-label="...">
+                                {{ islemciNesli }} 
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Ram</p>
+                            </li>
+                            
+                            {% for ram in rams %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="ram" type="checkbox" value="{{ ram }}" aria-label="...">
+                                {{ ram|title }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Disk Turu</p>
+                            </li>
+                            
+                            {% for diskTuru in diskTurus %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="diskTuru" type="checkbox" value={{ diskTuru }} aria-label="...">
+                                {{ diskTuru|title }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Ekran Boyu</p>
+                            </li>
+                            
+                            {% for ekranBoyu in ekranBoyus %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="ekranBoyu" type="checkbox" value={{ ekranBoyu }} aria-label="...">
+                                {{ ekranBoyu|title }}
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Disk Boyutu</p>
+                            </li>
+                            
+                            {% for diskBoyutu in diskBoyutus %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="diskBoyutu" type="checkbox" value="{{ diskBoyutu }}" aria-label="...">
+                                {{ diskBoyutu|title }} 
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                    <div class="row mb-4">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p class="fw-bold">Model Adı</p>
+                            </li>
+                            
+                            {% for modelAdi in modelAdis %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" name="modelAdi" type="checkbox" value="{{ modelAdi }}" aria-label="...">
+                                {{ modelAdi|title }} 
+                            </li>
+                            {% endfor %}
+
+                            
+                        </ul>
+                    </div>
+
+                </form>
+
 
             </div>
+
+            <!-- categoriens end -->
             
             <div class="col-sm-10">
 
