@@ -985,7 +985,7 @@ def filterWithSearchBar(request):
             diskBoyutu = set()
             modelAdi = set()
 
-            for eslesen in allProducts:
+            for item in allProducts:
 
                 if item['marka'] != "":
                     # print('')
