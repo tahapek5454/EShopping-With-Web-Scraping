@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%} AddPage {% endblock%}
+
+{%block main%}
+
+<div class="container mt-3">
+
+    <div class="col">
+        <h1 class="display-6">Delete Product</h1>
+        <hr>
+  
+        <!-- ilgili url e post edicez gondericez bilgilerimizi -->
+        <!-- id burda js tarafından kullanılır ama name server tarafından kullanılır
+             biz bilgileri servera post edecegimizde anahtar kelimeleri name tagıyla yaptık -->
+        <form  method="POST">
+           {% csrf_token %}
+           <!-- bu token güvenlig icin formu getleyen ve postlayan aynı kisği mi kontrol eder
+                 olmazsa calismaz -->
+
+          <div class="mb-3">
+            <label for="modelNo" class="form-label">Model No</label>
+            <input type="text" class="form-control" name="modelNo">
+          </div>
+  
+         
+           <button type="submit" class="btn btn-primary mb-3">Submit</button>
+        </form>
+     </div>
+   
+</div>
+
+
+{% endblock%}

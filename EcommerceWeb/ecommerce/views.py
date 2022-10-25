@@ -113,7 +113,7 @@ def homepage(request):
                 marka.add(item.marka)
         
         if item.modelAdi !="":
-            print(item.modelAdi)
+            #print(item.modelAdi)
             modelAdi.add(item.modelAdi)
 
 
@@ -382,7 +382,7 @@ def filterByCategory(request):
             flag = True
             base['modelAdi'] = {"$in" : selectedModelAdi}
         
-        base['site']={"$in" : ["Teknosa"]}
+        
 
     print(base)
 
@@ -396,7 +396,7 @@ def filterByCategory(request):
         mydb = myClient['WebScraping']
 
 
-        myCollection = mydb['shopping_matchproducts']
+        myCollection = mydb['ecommerce_matchproducts']
 
         allProducts = myCollection.find(base)
 
@@ -631,7 +631,7 @@ def filterWithSearchBar(request):
         """
         if len(barValue) > 0:
             flag = True
-        base['site']={"$in" : ["Teknosa"]}
+        
 
     print(base)
 
@@ -645,7 +645,7 @@ def filterWithSearchBar(request):
         mydb = myClient['WebScraping']
 
 
-        myCollection = mydb['shopping_matchproducts']
+        myCollection = mydb['ecommerce_matchproducts']
 
         tempProduct = myCollection.find(base)
         tempProduct = list(tempProduct)
