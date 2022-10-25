@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%} Kayıt Ol {% endblock%}
+
+{%block main%}
+
+<main>
+
+    <div class="col">
+
+        <h1> Kayıt Ol</h1>
+        <hr>
+    
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            {% if error %}
+             <div class="alert alert-danger">
+                    {{error}}
+                </div> 
+            {% endif %}
+    
+            <div class="mb-3">
+                <label for="username" class= "form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" name="username" value="{{username}}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class= "form-label">Email</label>
+                <input type="email" class="form-control" name="email" value="{{email}}">
+            </div>
+
+            <div class="mb-3">
+                <label for="tel" class= "form-label">Telefon Numarası</label>
+                <input type="tel" class="form-control" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="{{phonenumber}}">
+            </div>
+
+            <div class="row mb-3">
+            <div class="col">
+
+                <label for="firstname" class= "form-label">Ad</label>
+                <input type="text" class="form-control" name="firstname" value="{{firstname}}">
+
+            </div>
+            <div class="col">
+
+                <label for="lastname" class= "form-label">Soyad</label>
+                <input type="text" class="form-control" name="lastname" value="{{lastname}}">
+
+
+            </div>
+            </div>
+       
+    
+            <div class="row mb-3">
+            
+            <div class="col">
+
+                <label for="password" class= "form-label">Parola</label>
+                <input type="password" class="form-control" name="password">
+
+            </div>
+            
+            <div class="col">
+
+                <label for="repassword" class= "form-label">Tekrar Parola</label>
+                <input type="password" class="form-control" name="repassword">
+
+            </div>       
+            </div>
+
+            <div class="mb-3">
+                <label for="adres" class= "form-label">Adres</label>
+                <input type="text" class="form-control" name="adres"  value="{{adres}}">
+            </div>
+
+
+            <div class="mb-3"></div>
+    
+            <input type="submit" value="Register" class="btn btn-primary">
+    
+    
+    
+        </form> 
+    
+    
+    
+    
+        </div>
+
+
+
+</main>
+
+
+{% endblock%}

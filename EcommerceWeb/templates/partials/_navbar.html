@@ -32,21 +32,25 @@
                             <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Ana Sayfa</a>
                             <!-- url home diyerek home adı verilen url e bizi aktarır -->
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#about">Hakkımızda</a>
-                        </li>
+                
                     </ul>
 
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        {%if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Giriş Yap</a>
+                            <a class="nav-link" href="{% url 'logout' %}">Çıkış Yap</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Kaydol</a>
+                            <a class="nav-link" href="">Hoşgeldin, {{user.get_full_name|title }}</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Giriş Yap</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Çıkış Yap</a>
+                            <a class="nav-link" href="{% url 'register' %}">Kaydol</a>
                         </li>
+                        {% endif %}
                     </ul>
 
                     <form class="d-flex" id="navbar-form" action="{% url 'filterWithSearchBar' %}" method="POST">
