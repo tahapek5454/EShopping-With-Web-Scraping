@@ -21,89 +21,90 @@
            
            <div class="mb-3">
             <label for="marka" class="form-label">Marka</label>
-            <input type="text" class="form-control" name="marka" aria-describedby="markaHelp">
+            <input type="text" class="form-control" name="marka" value="{{ selectedProd.marka }}" aria-describedby="markaHelp"> 
+            
             
           </div>
 
           <div class="mb-3">
             <label for="modelAdi" class="form-label">Model Adı</label>
-            <input type="text" class="form-control" name="modelAdi">
+            <input type="text" class="form-control" value="{{ selectedProd.modelAdi }}" name="modelAdi">
           </div>
 
           <div class="mb-3">
             <label for="modelNo" class="form-label">Model No</label>
-            <input type="text" class="form-control" name="modelNo">
+            <input type="text" class="form-control" value="{{ selectedProd.modelNo }}" name="modelNo">
           </div>
   
            <div class="mb-3">
              <label for="isletimSistemi" class="form-label">İşletim Sistemi</label>
-             <input type="text" class="form-control" name="isletimSistemi" aria-describedby="isletimSistemiHelp">
+             <input type="text" class="form-control" name="isletimSistemi" value="{{ selectedProd.isletimSistemi }}" aria-describedby="isletimSistemiHelp">
             
            </div>
 
            <div class="mb-3">
              <label for="islemciTipi" class="form-label">İşlemci Tipi</label>
-             <input type="text" class="form-control" name="islemciTipi">
+             <input type="text" class="form-control" value="{{ selectedProd.islemciTipi }}" name="islemciTipi">
            </div>
 
            <div class="mb-3">
             <label for="islemciNesli" class="form-label">İslemci Nesli</label>
-            <input type="text" class="form-control" name="islemciNesli">
+            <input type="text" class="form-control" value="{{ selectedProd.islemciNesli }}" name="islemciNesli">
           </div>
 
           <div class="mb-3">
             <label for="ram" class="form-label">Ram</label>
-            <input type="text" class="form-control" name="ram">
+            <input type="text" class="form-control" value="{{ selectedProd.ram }}" name="ram">
           </div>
 
           <div class="mb-3">
             <label for="diskBoyutu" class="form-label">Disk Boyutu</label>
-            <input type="text" class="form-control" name="diskBoyutu">
+            <input type="text" class="form-control" value="{{ selectedProd.diskBoyutu }}" name="diskBoyutu">
           </div>
 
           <div class="mb-3">
             <label for="diskTuru" class="form-label">Disk Türü</label>
-            <input type="text" class="form-control" name="diskTuru">
+            <input type="text" class="form-control" value="{{ selectedProd.diskTuru }}" name="diskTuru">
           </div>
 
           <div class="mb-3">
             <label for="ekranBoyu" class="form-label">Ekran Boyu</label>
-            <input type="text" class="form-control" name="ekranBoyu">
+            <input type="text" class="form-control" value="{{ selectedProd.ekranBoyu }}" name="ekranBoyu">
           </div>
 
           <div class="mb-3">
             <label for="puani" class="form-label">Puanı</label>
-            <input type="text" class="form-control" name="puani">
+            <input type="text" class="form-control" value="{{ selectedProd.puani }}" name="puani">
           </div>
 
           <div class="mb-3">
             <label for="fiyat" class="form-label">Fiyat</label>
-            <input type="text" class="form-control" name="fiyat">
+            <input type="text" class="form-control" value="{{ selectedProd.fiyat }}" name="fiyat">
           </div>
 
           <div class="mb-3">
             <label for="prodLink" class="form-label">ProdLink</label>
-            <input type="text" class="form-control" name="prodLink">
+            <input type="text" class="form-control" value="{{ selectedProd.prodLink }}" name="prodLink">
           </div>
 
           <div class="mb-3">
             <label for="prodImageLink" class="form-label">prodImageLink</label>
-            <input type="text" class="form-control" name="prodImageLink">
+            <input type="text" class="form-control" value="{{ selectedProd.prodImageLink }}" name="prodImageLink">
           </div>
 
           <div class="mb-3">
             <label for="prodTitle" class="form-label">Prod Title</label>
-            <input type="text" class="form-control" name="prodTitle">
+            <input type="text" class="form-control" value="{{ selectedProd.prodTitle }}" name="prodTitle">
           </div>
 
           <div class="mb-3">
             <label for="site" class="form-label">Site</label>
-            <input type="text" class="form-control" name="site">
+            <input type="text" class="form-control" value="{{ selectedProd.site }}" name="site">
           </div>
 
           <div class="mb-3">
             <label for="id" class="form-label">Id</label>
-            <input type="text" class="form-control" name="id">
+            <input type="text" class="form-control" value="{{ selectedProd.id }}" name="id">
           </div>
 
            <button type="submit" class="btn btn-primary mb-3">Submit</button>
