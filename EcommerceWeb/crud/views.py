@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 import pymongo
+from ecommerce.models import MatchProducts
 
 # Create your views here.
 
@@ -82,7 +83,15 @@ def addProduct(request):
     return render(request, "crud/add.html")
 
 
-def updateProduct(request):
+def updateProduct(request, id):
+
+    selectedProd = MatchProducts.objects.get(id=id)
+
+    prod={
+        "selectedProd": selectedProd
+    }
+
+
 
     if request.method == "POST":
         print("pOSTA GİRDİM")
@@ -171,7 +180,7 @@ def updateProduct(request):
     
 
 
-    return render(request, "crud/update.html")
+    return render(request, "crud/update.html", prod)
 
 def deleteProduct(request):
 

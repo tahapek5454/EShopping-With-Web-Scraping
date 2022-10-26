@@ -14,8 +14,9 @@
             <div class="row ">
                 <div class="container">
                     <center>
-                    <img src={{prods.prodImageLink}} alt="Ressim Bulunamadı" class="pcImage img-responsive" style="height: 290px; width: 20%;">
-                </center>
+                        <img src={{prods.prodImageLink}} alt="Ressim Bulunamadı" class="pcImage img-responsive"
+                            style="height: 290px; width: 20%;">
+                    </center>
                 </div>
             </div>
 
@@ -25,11 +26,11 @@
 
             <div class="row">
                 <center>
-                <h5>
+                    <h5>
 
-                    {{prods.prodTitle}}
+                        {{prods.prodTitle}}
 
-                </h5>
+                    </h5>
                 </center>
             </div>
 
@@ -178,6 +179,11 @@
 
 
         </table>
+        <div class="container">
+            <center>
+                <a href="{% url 'updateProduct' prods.id %}" class="btn btn-secondary">Güncellemek İçin Tıklayınız</a>
+            </center>
+        </div>
 
 </main>
 
