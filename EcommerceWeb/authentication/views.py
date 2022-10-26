@@ -1,6 +1,13 @@
+
+import django
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from EcommerceWeb import settings
+
+
 def login_request(request):
     
     if request.user.is_authenticated:
@@ -22,6 +29,9 @@ def login_request(request):
             })
             
     return render(request,"authentication/login.html")
+
+
+
 
 def register_request(request):
     
@@ -62,8 +72,27 @@ def register_request(request):
                      "adres":adres
                 })
                 else:
+                    
+                    html=render_to_string('authentication/email_template.html',{                
+                             'name':isim
+                             
+                    })
+                    
+                    send_mail(
+                        '41KocaeliLaptopStore a Hoşgeldin!',
+                        html,
+                        settings.EMAIL_HOST_USER,
+                        [email],
+                    )
+                    
+                    
                     user= User.objects.create_user(username=username,email=email,first_name=isim,last_name=soyisim,password=password)
                     user.save()
+                    
+                    
+                    
+                    
+                    
                     return redirect("login")
         else:
             return render(request,"authentication/register.html",{
