@@ -213,10 +213,14 @@
 
         </table>
         <div class="container">
+            {% if user.is_authenticated %}
+            {% if user.is_staff%}
             <center>
                 <a href="{% url 'updateProduct' prods.id %}" class="btn btn-secondary">Güncellemek İçin Tıklayınız</a>
             </center>
+            {% endif %}
         </div>
+            {% endif %}
 
 </main>
 

@@ -1,6 +1,3 @@
-
-
-
 <!-- navbar -->
 <header>
 
@@ -37,6 +34,14 @@
 
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         {%if user.is_authenticated %}
+                        {%if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'deleteProduct' %}">Ürün Sil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'addProduct' %}">Ürün Ekle</a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Çıkış Yap</a>
                         </li>

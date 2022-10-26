@@ -1957,10 +1957,16 @@ def get_match_products():
                 if(index==1):
                     index+=1
                     continue
-                productDict['puani'+str(index)]=m.puani
-                productDict['fiyat'+str(index)]=m.fiyat
-                productDict['site'+str(index)]=m.site
-                productDict['prodLink'+str(index)]="http://"+m.prodLink
+                if(m.site=='41LaptopStore'):
+                    productDict['puani'+str(index)]=m.puani
+                    productDict['fiyat'+str(index)]=m.fiyat
+                    productDict['site'+str(index)]=m.site
+                    productDict['prodLink'+str(index)]="http://"+m.prodLink
+                else:
+                    productDict['puani'+str(index)]=m.puani
+                    productDict['fiyat'+str(index)]=m.fiyat
+                    productDict['site'+str(index)]=m.site
+                    productDict['prodLink'+str(index)]=m.prodLink
                 index=index+1
             listss.append(productDict)
             db.add_one_product(productDict)
