@@ -12,11 +12,54 @@
             <!-- products start -->
 
             <div class="row ">
-                <div class="container">
-                    <center>
-                        <img src={{prods.prodImageLink}} alt="Ressim Bulunamadı" class="pcImage img-responsive"
-                            style="height: 290px; width: 20%;">
-                    </center>
+                <div class="col-sm-6">
+                    <div class="container">
+                        <center>
+                            <img src={{prods.prodImageLink}} alt="Ressim Bulunamadı" class="pcImage img-responsive"
+                                style="height: 290px; width: 50%;">
+                        </center>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="row">
+                        <center>
+                            <h5>
+                                <p class="fw-bold">
+                                {{prods.prodTitle}}
+                                </p>
+                            </h5>
+                        </center>
+                    </div>
+        
+                    <hr>
+
+                    <div class="row">
+                        <center>
+                            
+                            <h5>
+                                <p class="fw-bold" style="color: orange;">Sepette</p>
+                                
+                                <p class="fw-bold">
+                                {{prods.fiyat}} TL
+                                </p>
+                            </h5>
+                        </center>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <center>
+                            
+                            <h5>
+                                <p class="fw-bold" style="color: orange;">Puanı</p>
+                                <p class="fw-bold">
+                                {{prods.puani}}
+                            </p>
+        
+                                <h5>
+                        </center>
+                    </div>
+
                 </div>
             </div>
 
@@ -24,17 +67,7 @@
 
 
 
-            <div class="row">
-                <center>
-                    <h5>
-
-                        {{prods.prodTitle}}
-
-                    </h5>
-                </center>
-            </div>
-
-            <hr>
+            
 
 
 
