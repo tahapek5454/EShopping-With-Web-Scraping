@@ -145,7 +145,10 @@ ShoppingApp klasörü içerisinde oluşturduğumuz cimriye benzeyen siteye ait k
 27) Eğer kullanıcı kayıt olmak istiyorsa kayıt et. Ettikten sonra ilgili mail'e teşekkür mesajı at.\\
 28) Eğer kullanıcı bilgide güncelleme yaparsa bilgiyi hem ecomemrce database'inde hem de shoppingapp databaseinde güncelle.\\
 29) Eğer kullanıcı ürünü silerse ürünü hem ecommerce databaseinden hem de shoppingapp databaseinden sil.\\
-30) Eğer kullanıcı ürün eklerse ürünü shaperlara sokarak ecommerce database'ine ekle.\\
+30) Eğer kullanıcı ürün eklerse ürünü shaperlara sokarak öncelikle databasede var olup olmadığını kontrol et.\\
+31) Var olup olmadığını model numarası üzerinden kontrol et.\\
+-Eğer ürün varsa ürünün var olduğuna dair log'u terminalden döndür.\\
+-Eğer ürün yoksa ürünü database'e ekle.\\
 
 
 
